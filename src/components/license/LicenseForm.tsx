@@ -111,7 +111,7 @@ const LicenseForm = ({ license, onSubmit, onCancel, loading }: LicenseFormProps)
                   type='submit'
                   variant='contained'
                   disabled={loading || !musicId}
-                  startIcon={loading ? <i className='tabler-loader' /> : <i className='tabler-check' />}
+                  startIcon={loading ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}
                 >
                   {loading ? 'Création...' : license ? 'Mettre à jour' : 'Créer'}
                 </Button>

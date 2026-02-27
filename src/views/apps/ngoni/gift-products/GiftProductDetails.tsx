@@ -33,6 +33,7 @@ import { GIFT_CATEGORIES } from '@/types/gift.types'
 import { getLocalizedUrl } from '@/utils/i18n'
 
 // Component Imports
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog'
 import NgoniBreadcrumbs from '@/components/NgoniBreadcrumbs'
 import CustomTextField from '@core/components/mui/TextField'
 
@@ -64,6 +65,7 @@ export default function GiftProductDetails({ id }: GiftProductDetailsProps) {
   const [animationFile, setAnimationFile] = useState<File | null>(null)
   const [animationPreview, setAnimationPreview] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   const fetchProduct = async () => {
     try {
@@ -167,7 +169,6 @@ export default function GiftProductDetails({ id }: GiftProductDetailsProps) {
   }
 
   const handleDelete = async () => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit ?')) return
     try {
       await giftProductService.delete(Number(id))
       toast.success('Produit supprimé')
@@ -257,7 +258,7 @@ export default function GiftProductDetails({ id }: GiftProductDetailsProps) {
               <Button variant='contained' size='medium' startIcon={<i className='tabler-edit' />} onClick={() => setEditing(true)}>
                 Modifier
               </Button>
-              <Button variant='tonal' color='error' size='medium' startIcon={<i className='tabler-trash' />} onClick={handleDelete}>
+              <Button variant='tonal' color='error' size='medium' startIcon={<i className='tabler-trash' />} onClick={() => setDeleteDialogOpen(true)}>
                 Supprimer
               </Button>
             </>
@@ -269,7 +270,7 @@ export default function GiftProductDetails({ id }: GiftProductDetailsProps) {
               <Button
                 variant='contained'
                 size='medium'
-                startIcon={submitting ? <CircularProgress size={18} color='inherit' /> : <i className='tabler-check' />}
+                startIcon={submitting ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}
                 disabled={submitting || !name.trim() || !price}
                 onClick={e => handleUpdate(e)}
               >
@@ -510,6 +511,12 @@ export default function GiftProductDetails({ id }: GiftProductDetailsProps) {
           </Card>
         </Grid>
       </Grid>
+      <DeleteConfirmDialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleDelete}
+        message='Êtes-vous sûr de vouloir supprimer ce produit ?'
+      />
     </Box>
   )
 }

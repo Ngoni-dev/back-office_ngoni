@@ -24,6 +24,7 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 
 // Component Imports
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog'
 import CustomTextField from '@core/components/mui/TextField'
 import OptionMenu from '@core/components/option-menu'
 import GenreForm from './GenreForm'
@@ -45,6 +46,7 @@ const GenreList = () => {
   const [openDialog, setOpenDialog] = useState(false)
   const [editingGenre, setEditingGenre] = useState<Genre | null>(null)
   const [submitting, setSubmitting] = useState(false)
+  const [deleteDialogGenre, setDeleteDialogGenre] = useState<Genre | null>(null)
 
   // Load genres on mount
   useEffect(() => {
@@ -95,13 +97,15 @@ const GenreList = () => {
     }
   }
 
-  const handleDelete = async (genre: Genre) => {
-    if (!confirm(`Êtes-vous sûr de vouloir supprimer le genre "${genre.name}" ?`)) {
-      return
-    }
+  const handleDeleteRequest = (genre: Genre) => {
+    setDeleteDialogGenre(genre)
+  }
 
+  const handleDeleteConfirm = async () => {
+    if (!deleteDialogGenre) return
     try {
-      await deleteGenre(genre.id)
+      await deleteGenre(deleteDialogGenre.id)
+      setDeleteDialogGenre(null)
       await fetchGenres()
     } catch (error) {
       console.error('Delete error:', error)
@@ -236,7 +240,7 @@ const GenreList = () => {
                             text: 'Supprimer',
                             icon: <i className='tabler-trash' />,
                             menuItemProps: {
-                              onClick: () => handleDelete(genre),
+                              onClick: () => handleDeleteRequest(genre),
                               className: 'text-error'
                             }
                           }
@@ -276,6 +280,13 @@ const GenreList = () => {
           />
         </DialogContent>
       </Dialog>
+
+      <DeleteConfirmDialog
+        open={deleteDialogGenre !== null}
+        onClose={() => setDeleteDialogGenre(null)}
+        onConfirm={handleDeleteConfirm}
+        message={deleteDialogGenre ? `Êtes-vous sûr de vouloir supprimer le genre "${deleteDialogGenre.name}" ?` : ''}
+      />
     </Box>
   )
 }

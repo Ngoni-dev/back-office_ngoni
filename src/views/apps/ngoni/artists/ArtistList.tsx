@@ -32,6 +32,7 @@ import type { Artist } from '@/types/artist.types'
 import { getLocalizedUrl } from '@/utils/i18n'
 
 // Component Imports
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog'
 import NgoniBreadcrumbs from '@/components/NgoniBreadcrumbs'
 import OptionMenu from '@core/components/option-menu'
 import CustomTextField from '@core/components/mui/TextField'
@@ -47,6 +48,7 @@ export default function ArtistList() {
   const [total, setTotal] = useState(0)
   const [searchName, setSearchName] = useState('')
   const debouncedSearchName = useDebounceValue(searchName, 400)
+  const [deleteDialog, setDeleteDialog] = useState<{ id: number } | null>(null)
 
   const fetchArtists = async () => {
     setLoading(true)
@@ -88,10 +90,10 @@ export default function ArtistList() {
   }
 
   const handleDelete = async (id: number) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cet artiste ?')) return
     try {
       await artistService.delete(id)
       toast.success('Artiste supprimé')
+      setDeleteDialog(null)
       fetchArtists()
     } catch {
       toast.error('Erreur lors de la suppression')
@@ -194,41 +196,54 @@ export default function ArtistList() {
                         <tr key={a.id}>
                           <td>{a.id}</td>
                           <td>
-                            <Badge
-                              overlap='circular'
-                              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-                              badgeContent={
-                                <Box
-                                  component='span'
-                                  title={a.verified ? 'Vérifié' : 'Non vérifié'}
-                                  sx={{
-                                    display: 'inline-flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                    width: 16,
-                                    height: 16,
-                                    borderRadius: '50%',
-                                    bgcolor: a.verified ? '#1DA1F2' : 'action.disabledBackground',
-                                    color: a.verified ? 'white' : 'text.disabled',
-                                    border: '2px solid',
-                                    borderColor: 'background.paper',
-                                    flexShrink: 0
-                                  }}
-                                >
-                                  {a.verified ? (
-                                    <svg width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='3' strokeLinecap='round' strokeLinejoin='round'>
-                                      <polyline points='20 6 9 17 4 12' />
-                                    </svg>
-                                  ) : (
-                                    <i className='tabler-minus' style={{ fontSize: 10 }} />
-                                  )}
-                                </Box>
-                              }
+                            <Box
+                              component='button'
+                              type='button'
+                              onClick={() => router.push(getLocalizedUrl(`/apps/ngoni/artists/${a.id}`, lang as string))}
+                              sx={{
+                                display: 'inline-flex',
+                                cursor: 'pointer',
+                                border: 'none',
+                                background: 'none',
+                                padding: 0
+                              }}
                             >
-                              <Avatar src={a.profile_image_url || undefined} alt={a.name} sx={{ width: 36, height: 36 }}>
-                                {a.name.charAt(0).toUpperCase()}
-                              </Avatar>
-                            </Badge>
+                              <Badge
+                                overlap='circular'
+                                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+                                badgeContent={
+                                  <Box
+                                    component='span'
+                                    title={a.verified ? 'Vérifié' : 'Non vérifié'}
+                                    sx={{
+                                      display: 'inline-flex',
+                                      alignItems: 'center',
+                                      justifyContent: 'center',
+                                      width: 16,
+                                      height: 16,
+                                      borderRadius: '50%',
+                                      bgcolor: a.verified ? '#1DA1F2' : 'action.disabledBackground',
+                                      color: a.verified ? 'white' : 'text.disabled',
+                                      border: '2px solid',
+                                      borderColor: 'background.paper',
+                                      flexShrink: 0
+                                    }}
+                                  >
+                                    {a.verified ? (
+                                      <svg width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='currentColor' strokeWidth='3' strokeLinecap='round' strokeLinejoin='round'>
+                                        <polyline points='20 6 9 17 4 12' />
+                                      </svg>
+                                    ) : (
+                                      <i className='tabler-minus' style={{ fontSize: 10 }} />
+                                    )}
+                                  </Box>
+                                }
+                              >
+                                <Avatar src={a.profile_image_url || undefined} alt={a.name} sx={{ width: 36, height: 36 }}>
+                                  {a.name.charAt(0).toUpperCase()}
+                                </Avatar>
+                              </Badge>
+                            </Box>
                           </td>
                           <td>
                             <Button
@@ -286,7 +301,7 @@ export default function ArtistList() {
                                   text: 'Supprimer',
                                   icon: <i className='tabler-trash' />,
                                   menuItemProps: {
-                                    onClick: () => handleDelete(a.id),
+                                    onClick: () => setDeleteDialog({ id: a.id }),
                                     className: 'text-error'
                                   }
                                 }
@@ -315,6 +330,12 @@ export default function ArtistList() {
           </Card>
         </Grid>
       </Grid>
+      <DeleteConfirmDialog
+        open={!!deleteDialog}
+        onClose={() => setDeleteDialog(null)}
+        onConfirm={async () => { if (deleteDialog) await handleDelete(deleteDialog.id) }}
+        message='Êtes-vous sûr de vouloir supprimer cet artiste ?'
+      />
     </Box>
   )
 }

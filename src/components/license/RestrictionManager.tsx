@@ -29,6 +29,7 @@ import TableRow from '@mui/material/TableRow'
 import Typography from '@mui/material/Typography'
 
 // Component Imports
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog'
 import CustomTextField from '@core/components/mui/TextField'
 
 // Hook Imports
@@ -76,14 +77,7 @@ const RestrictionManager = ({ license, onClose }: RestrictionManagerProps) => {
 
   const handleConfirmDelete = async () => {
     if (!restrictionToDelete) return
-
-    try {
-      await removeRestriction(license.id, restrictionToDelete.id)
-      setDeleteConfirmOpen(false)
-      setRestrictionToDelete(null)
-    } catch (error) {
-      console.error('Error removing restriction:', error)
-    }
+    await removeRestriction(license.id, restrictionToDelete.id)
   }
 
   const restrictions = license.regionRestrictions || []
@@ -190,7 +184,7 @@ const RestrictionManager = ({ license, onClose }: RestrictionManagerProps) => {
         <DialogTitle>Ajouter une restriction régionale</DialogTitle>
         <DialogContent>
           <Grid container spacing={3} sx={{ mt: 1 }}>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <CustomTextField
                 fullWidth
                 type='number'
@@ -201,7 +195,7 @@ const RestrictionManager = ({ license, onClose }: RestrictionManagerProps) => {
                 helperText={"L'identifiant numérique du pays à restreindre"}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <FormControl fullWidth>
                 <InputLabel>Type de restriction</InputLabel>
                 <Select
@@ -230,48 +224,23 @@ const RestrictionManager = ({ license, onClose }: RestrictionManagerProps) => {
             variant='contained'
             onClick={handleAddRestriction}
             disabled={loading || !countryId}
-            startIcon={loading ? <i className='tabler-loader' /> : <i className='tabler-check' />}
+            startIcon={loading ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}
           >
             {loading ? 'Ajout...' : 'Ajouter'}
           </Button>
         </DialogActions>
       </Dialog>
 
-      {/* Delete Confirmation Dialog */}
-      <Dialog open={deleteConfirmOpen} onClose={() => setDeleteConfirmOpen(false)} maxWidth='xs' fullWidth>
-        <DialogTitle>Confirmer la suppression</DialogTitle>
-        <DialogContent>
-          <Typography>
-            Êtes-vous sûr de vouloir supprimer cette restriction régionale ?
-          </Typography>
-          {restrictionToDelete && (
-            <Box mt={2}>
-              <Typography variant='body2' color='text.secondary'>
-                Pays #{restrictionToDelete.country_id} - {restrictionToDelete.restriction_type}
-              </Typography>
-            </Box>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button
-            variant='tonal'
-            color='secondary'
-            onClick={() => setDeleteConfirmOpen(false)}
-            disabled={loading}
-          >
-            Annuler
-          </Button>
-          <Button
-            variant='contained'
-            color='error'
-            onClick={handleConfirmDelete}
-            disabled={loading}
-            startIcon={loading ? <i className='tabler-loader' /> : <i className='tabler-trash' />}
-          >
-            {loading ? 'Suppression...' : 'Supprimer'}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DeleteConfirmDialog
+        open={deleteConfirmOpen}
+        onClose={() => { setDeleteConfirmOpen(false); setRestrictionToDelete(null) }}
+        onConfirm={handleConfirmDelete}
+        message={
+          restrictionToDelete
+            ? `Êtes-vous sûr de vouloir supprimer cette restriction régionale ? (Pays #${restrictionToDelete.country_id} - ${restrictionToDelete.restriction_type})`
+            : ''
+        }
+      />
     </>
   )
 }

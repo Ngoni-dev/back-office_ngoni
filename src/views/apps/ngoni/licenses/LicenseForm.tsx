@@ -252,7 +252,7 @@ export default function LicenseForm() {
                     type='submit'
                     variant='contained'
                     disabled={submitting || !musicId || !ownerName.trim() || !licenseType.trim() || !startDate}
-                    startIcon={submitting ? <CircularProgress size={20} /> : <i className='tabler-check' />}
+                    startIcon={submitting ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}
                   >
                     {submitting ? 'Création...' : 'Créer'}
                   </Button>

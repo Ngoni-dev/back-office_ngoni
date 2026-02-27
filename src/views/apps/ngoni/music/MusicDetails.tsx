@@ -35,7 +35,9 @@ import type { Music, MusicArtist, MusicGenre, MusicStatus } from '@/types/music.
 import { getLocalizedUrl } from '@/utils/i18n'
 
 // Component Imports
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog'
 import NgoniBreadcrumbs from '@/components/NgoniBreadcrumbs'
+import ArtistAvatarsCell from '@/components/ngoni/ArtistAvatarsCell'
 import CustomTextField from '@core/components/mui/TextField'
 
 const statusColors: Record<MusicStatus, 'default' | 'success' | 'error' | 'warning'> = {
@@ -73,6 +75,7 @@ export default function MusicDetails({ id }: MusicDetailsProps) {
   const [artists, setArtists] = useState<MusicArtist[]>([])
   const [genres, setGenres] = useState<MusicGenre[]>([])
   const [submitting, setSubmitting] = useState(false)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   useEffect(() => {
     const fetchMusic = async () => {
@@ -163,7 +166,6 @@ export default function MusicDetails({ id }: MusicDetailsProps) {
   }
 
   const handleDelete = async () => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cette musique ?')) return
     try {
       await musicService.delete(Number(id))
       toast.success('Musique supprimée avec succès')
@@ -296,7 +298,7 @@ export default function MusicDetails({ id }: MusicDetailsProps) {
               >
                 Modifier
               </Button>
-              <Button variant='tonal' color='error' size='medium' startIcon={<i className='tabler-trash' />} onClick={handleDelete}>
+              <Button variant='tonal' color='error' size='medium' startIcon={<i className='tabler-trash' />} onClick={() => setDeleteDialogOpen(true)}>
                 Supprimer
               </Button>
             </>
@@ -308,7 +310,7 @@ export default function MusicDetails({ id }: MusicDetailsProps) {
               <Button
                 variant='contained'
                 size='medium'
-                startIcon={submitting ? <CircularProgress size={18} color='inherit' /> : <i className='tabler-check' />}
+                startIcon={submitting ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}
                 disabled={submitting || !title.trim()}
                 onClick={() => handleUpdate()}
               >
@@ -429,14 +431,8 @@ export default function MusicDetails({ id }: MusicDetailsProps) {
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6, md: 4 }}>
                         <Typography variant='caption' color='text.secondary' display='block' gutterBottom>Artistes</Typography>
-                        <Box display='flex' gap={0.75} flexWrap='wrap'>
-                          {music.artists?.length ? (
-                            music.artists.map(artist => (
-                              <Chip key={artist.id} label={artist.name} size='small' variant='outlined' />
-                            ))
-                          ) : (
-                            <Typography variant='body1' color='text.secondary'>—</Typography>
-                          )}
+                        <Box display='flex' alignItems='center' minHeight={40}>
+                          <ArtistAvatarsCell artists={music.artists} size='default' />
                         </Box>
                       </Grid>
                       <Grid size={{ xs: 12, sm: 6, md: 4 }}>
@@ -605,6 +601,12 @@ export default function MusicDetails({ id }: MusicDetailsProps) {
           </Card>
         </Grid>
       </Grid>
+      <DeleteConfirmDialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleDelete}
+        message='Êtes-vous sûr de vouloir supprimer cette musique ?'
+      />
     </Box>
   )
 }

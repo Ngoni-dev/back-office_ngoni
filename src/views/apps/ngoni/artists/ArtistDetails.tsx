@@ -35,6 +35,7 @@ import type { Music } from '@/types/music.types'
 import { getLocalizedUrl } from '@/utils/i18n'
 
 // Component Imports
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog'
 import NgoniBreadcrumbs from '@/components/NgoniBreadcrumbs'
 import CustomTextField from '@core/components/mui/TextField'
 
@@ -62,6 +63,8 @@ export default function ArtistDetails({ id }: ArtistDetailsProps) {
   const [selectedMusicIdForAttach, setSelectedMusicIdForAttach] = useState<number | ''>('')
   const [attaching, setAttaching] = useState(false)
   const [submitting, setSubmitting] = useState(false)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
+  const [detachDialogMusicId, setDetachDialogMusicId] = useState<number | null>(null)
 
   useEffect(() => {
     const fetchArtist = async () => {
@@ -167,7 +170,6 @@ export default function ArtistDetails({ id }: ArtistDetailsProps) {
   }
 
   const handleDelete = async () => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cet artiste ?')) return
     try {
       await artistService.delete(Number(id))
       toast.success('Artiste supprimé avec succès')
@@ -207,10 +209,10 @@ export default function ArtistDetails({ id }: ArtistDetailsProps) {
   }
 
   const handleDetachMusic = async (musicId: number) => {
-    if (!confirm('Êtes-vous sûr de vouloir détacher cette musique ?')) return
     try {
       await artistService.detachFromMusic(musicId, Number(id))
       toast.success('Musique détachée')
+      setDetachDialogMusicId(null)
       await refetchArtistAndMusics()
     } catch {
       toast.error('Erreur lors du détachement')
@@ -324,7 +326,7 @@ export default function ArtistDetails({ id }: ArtistDetailsProps) {
               <Button variant='contained' size='medium' startIcon={<i className='tabler-edit' />} onClick={() => setEditing(true)}>
                 Modifier
               </Button>
-              <Button variant='tonal' color='error' size='medium' startIcon={<i className='tabler-trash' />} onClick={handleDelete}>
+              <Button variant='tonal' color='error' size='medium' startIcon={<i className='tabler-trash' />} onClick={() => setDeleteDialogOpen(true)}>
                 Supprimer
               </Button>
             </>
@@ -336,7 +338,7 @@ export default function ArtistDetails({ id }: ArtistDetailsProps) {
               <Button
                 variant='contained'
                 size='medium'
-                startIcon={submitting ? <CircularProgress size={18} color='inherit' /> : <i className='tabler-check' />}
+                startIcon={submitting ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}
                 disabled={submitting || !name.trim()}
                 onClick={() => handleUpdate()}
               >
@@ -472,7 +474,7 @@ export default function ArtistDetails({ id }: ArtistDetailsProps) {
                     size='medium'
                     disabled={!selectedMusicIdForAttach || attaching}
                     onClick={handleAttachMusic}
-                    startIcon={attaching ? <CircularProgress size={18} /> : <i className='tabler-link-plus' />}
+                    startIcon={attaching ? <i className='tabler-loader animate-spin' /> : <i className='tabler-link-plus' />}
                   >
                     {attaching ? 'Attachement...' : 'Attacher'}
                   </Button>
@@ -540,7 +542,7 @@ export default function ArtistDetails({ id }: ArtistDetailsProps) {
                       <IconButton
                         size='small'
                         color='error'
-                        onClick={() => handleDetachMusic(music.id)}
+                        onClick={() => setDetachDialogMusicId(music.id)}
                         aria-label='Détacher'
                         sx={{ flexShrink: 0 }}
                       >
@@ -605,6 +607,18 @@ export default function ArtistDetails({ id }: ArtistDetailsProps) {
           </Card>
         </Grid>
       </Grid>
+      <DeleteConfirmDialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleDelete}
+        message='Êtes-vous sûr de vouloir supprimer cet artiste ?'
+      />
+      <DeleteConfirmDialog
+        open={detachDialogMusicId !== null}
+        onClose={() => setDetachDialogMusicId(null)}
+        onConfirm={async () => { if (detachDialogMusicId !== null) await handleDetachMusic(detachDialogMusicId) }}
+        message='Êtes-vous sûr de vouloir détacher cette musique ?'
+      />
     </Box>
   )
 }

@@ -247,7 +247,7 @@ const MusicForm = ({ music, onSubmit, onCancel, loading }: MusicFormProps) => {
                   type='submit'
                   variant='contained'
                   disabled={loading || (!isEditMode && !audioFile)}
-                  startIcon={loading ? <i className='tabler-loader' /> : <i className='tabler-check' />}
+                  startIcon={loading ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}
                 >
                   {loading ? 'Enregistrement...' : isEditMode ? 'Mettre à jour' : 'Créer'}
                 </Button>

@@ -58,6 +58,7 @@ const parseYyyyMmDd = (s: string): Date | null => {
 }
 
 // Component Imports
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog'
 import NgoniBreadcrumbs from '@/components/NgoniBreadcrumbs'
 import CustomTextField from '@core/components/mui/TextField'
 import AppReactDatepicker from '@/libs/styles/AppReactDatepicker'
@@ -89,7 +90,7 @@ export default function LicenseDetails({ id }: LicenseDetailsProps) {
   // Remove confirmation
   const [removeRestrictionOpen, setRemoveRestrictionOpen] = useState(false)
   const [restrictionToRemove, setRestrictionToRemove] = useState<RegionRestriction | null>(null)
-  const [removeSubmitting, setRemoveSubmitting] = useState(false)
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   const fetchLicense = async () => {
     try {
@@ -156,7 +157,6 @@ export default function LicenseDetails({ id }: LicenseDetailsProps) {
   }
 
   const handleDelete = async () => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cette licence ?')) return
     try {
       await licenseService.delete(Number(id))
       toast.success('Licence supprimée')
@@ -199,18 +199,11 @@ export default function LicenseDetails({ id }: LicenseDetailsProps) {
 
   const handleConfirmRemoveRestriction = async () => {
     if (!restrictionToRemove) return
-    setRemoveSubmitting(true)
-    try {
-      await licenseService.removeRestriction(Number(id), restrictionToRemove.id)
-      toast.success('Restriction supprimée')
-      setRemoveRestrictionOpen(false)
-      setRestrictionToRemove(null)
-      await fetchLicense()
-    } catch {
-      toast.error('Erreur lors de la suppression de la restriction')
-    } finally {
-      setRemoveSubmitting(false)
-    }
+    await licenseService.removeRestriction(Number(id), restrictionToRemove.id)
+    toast.success('Restriction supprimée')
+    setRemoveRestrictionOpen(false)
+    setRestrictionToRemove(null)
+    await fetchLicense()
   }
 
   if (loading) {
@@ -271,7 +264,7 @@ export default function LicenseDetails({ id }: LicenseDetailsProps) {
               <Button variant='contained' size='medium' startIcon={<i className='tabler-edit' />} onClick={() => setEditing(true)}>
                 Modifier
               </Button>
-              <Button variant='tonal' color='error' size='medium' startIcon={<i className='tabler-trash' />} onClick={handleDelete}>
+              <Button variant='tonal' color='error' size='medium' startIcon={<i className='tabler-trash' />} onClick={() => setDeleteDialogOpen(true)}>
                 Supprimer
               </Button>
             </>
@@ -283,7 +276,7 @@ export default function LicenseDetails({ id }: LicenseDetailsProps) {
               <Button
                 variant='contained'
                 size='medium'
-                startIcon={submitting ? <CircularProgress size={18} color='inherit' /> : <i className='tabler-check' />}
+                startIcon={submitting ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}
                 disabled={submitting || !ownerName.trim() || !licenseType.trim() || !startDate}
                 onClick={e => handleUpdate(e)}
               >
@@ -489,30 +482,29 @@ export default function LicenseDetails({ id }: LicenseDetailsProps) {
         </DialogContent>
         <DialogActions>
           <Button variant='tonal' color='secondary' onClick={() => setAddRestrictionOpen(false)} disabled={restrictionSubmitting}>Annuler</Button>
-          <Button variant='contained' onClick={handleAddRestriction} disabled={restrictionSubmitting || !restrictionCountryId.trim()} startIcon={restrictionSubmitting ? <CircularProgress size={20} /> : <i className='tabler-check' />}>
+          <Button variant='contained' onClick={handleAddRestriction} disabled={restrictionSubmitting || !restrictionCountryId.trim()} startIcon={restrictionSubmitting ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}>
             {restrictionSubmitting ? 'Ajout...' : 'Ajouter'}
           </Button>
         </DialogActions>
       </Dialog>
 
-      {/* Remove restriction confirmation */}
-      <Dialog open={removeRestrictionOpen} onClose={() => setRemoveRestrictionOpen(false)} maxWidth='xs' fullWidth>
-        <DialogTitle>Supprimer la restriction</DialogTitle>
-        <DialogContent>
-          <Typography>Êtes-vous sûr de vouloir supprimer cette restriction ?</Typography>
-          {restrictionToRemove && (
-            <Typography variant='body2' color='text.secondary' sx={{ mt: 1 }}>
-              Pays {restrictionToRemove.country_name ?? `#${restrictionToRemove.country_id}`} – {restrictionToRemove.restriction_type}
-            </Typography>
-          )}
-        </DialogContent>
-        <DialogActions>
-          <Button variant='tonal' color='secondary' onClick={() => setRemoveRestrictionOpen(false)} disabled={removeSubmitting}>Annuler</Button>
-          <Button variant='contained' color='error' onClick={handleConfirmRemoveRestriction} disabled={removeSubmitting} startIcon={removeSubmitting ? <CircularProgress size={20} /> : <i className='tabler-trash' />}>
-            {removeSubmitting ? 'Suppression...' : 'Supprimer'}
-          </Button>
-        </DialogActions>
-      </Dialog>
+      <DeleteConfirmDialog
+        open={removeRestrictionOpen}
+        onClose={() => { setRemoveRestrictionOpen(false); setRestrictionToRemove(null) }}
+        onConfirm={handleConfirmRemoveRestriction}
+        title='Supprimer la restriction'
+        message={
+          restrictionToRemove
+            ? `Êtes-vous sûr de vouloir supprimer cette restriction ? (Pays ${restrictionToRemove.country_name ?? `#${restrictionToRemove.country_id}`} – ${restrictionToRemove.restriction_type})`
+            : ''
+        }
+      />
+      <DeleteConfirmDialog
+        open={deleteDialogOpen}
+        onClose={() => setDeleteDialogOpen(false)}
+        onConfirm={handleDelete}
+        message='Êtes-vous sûr de vouloir supprimer cette licence ?'
+      />
     </Box>
   )
 }

@@ -11,6 +11,7 @@ import Dialog from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 
 // Component Imports
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog'
 import GiftProductForm from '@/components/gift/GiftProductForm'
 import GiftProductList from '@/components/gift/GiftProductList'
 import NgoniBreadcrumbs from '@/components/NgoniBreadcrumbs'
@@ -33,6 +34,7 @@ export default function GiftsPage() {
   const [openDialog, setOpenDialog] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<GiftProduct | undefined>(undefined)
   const [loading, setLoading] = useState(false)
+  const [deleteDialogProduct, setDeleteDialogProduct] = useState<GiftProduct | null>(null)
 
   const handleCreate = () => {
     setSelectedProduct(undefined)
@@ -48,14 +50,16 @@ export default function GiftsPage() {
     router.push(getLocalizedUrl(`/apps/ngoni/gifts/${product.id}`, lang as string))
   }
 
-  const handleDelete = async (product: GiftProduct) => {
-    if (!confirm(`Êtes-vous sûr de vouloir supprimer "${product.name}" ?`)) {
-      return
-    }
+  const handleDeleteRequest = (product: GiftProduct) => {
+    setDeleteDialogProduct(product)
+  }
 
+  const handleDeleteConfirm = async () => {
+    if (!deleteDialogProduct) return
     try {
-      await deleteGiftProduct(product.id)
+      await deleteGiftProduct(deleteDialogProduct.id)
       toast.success('Produit cadeau supprimé avec succès')
+      setDeleteDialogProduct(null)
       await fetchGiftProducts()
     } catch (error) {
       console.error('Error deleting product:', error)
@@ -104,7 +108,7 @@ export default function GiftsPage() {
         onCreate={handleCreate}
         onEdit={handleEdit}
         onView={handleView}
-        onDelete={handleDelete}
+        onDelete={handleDeleteRequest}
         onToggleActive={handleToggleActive}
       />
 
@@ -124,6 +128,13 @@ export default function GiftsPage() {
           />
         </DialogContent>
       </Dialog>
+
+      <DeleteConfirmDialog
+        open={deleteDialogProduct !== null}
+        onClose={() => setDeleteDialogProduct(null)}
+        onConfirm={handleDeleteConfirm}
+        message={deleteDialogProduct ? `Êtes-vous sûr de vouloir supprimer "${deleteDialogProduct.name}" ?` : ''}
+      />
     </>
   )
 }

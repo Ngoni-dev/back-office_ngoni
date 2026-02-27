@@ -203,6 +203,17 @@ ul:not([class]) {
   font-size: 1.5rem;
 }
 
+/* Loader spin animation (tabler-loader) */
+@keyframes loader-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.tabler-loader.animate-spin {
+  animation: loader-spin 1s linear infinite;
+  display: inline-block;
+}
+
 /* Fix width issue for the input-otp component */
 input[autocomplete='one-time-code'][data-input-otp='true'] {
   inline-size: 100% !important;

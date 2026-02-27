@@ -291,7 +291,7 @@ export default function MusicForm() {
                     type='submit'
                     variant='contained'
                     disabled={submitting || !title.trim() || !audioFile}
-                    startIcon={submitting ? <CircularProgress size={20} /> : undefined}
+                    startIcon={submitting ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}
                   >
                     {submitting ? 'Création...' : 'Créer'}
                   </Button>

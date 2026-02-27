@@ -32,7 +32,9 @@ import type { Music, MusicStatus } from '@/types/music.types'
 import { getLocalizedUrl } from '@/utils/i18n'
 
 // Component Imports
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog'
 import NgoniBreadcrumbs from '@/components/NgoniBreadcrumbs'
+import ArtistAvatarsCell from '@/components/ngoni/ArtistAvatarsCell'
 import OptionMenu from '@core/components/option-menu'
 import CustomTextField from '@core/components/mui/TextField'
 import { useDebounceValue } from '@/hooks/useDebounceValue'
@@ -70,6 +72,7 @@ export default function MusicList() {
   const [searchTitle, setSearchTitle] = useState('')
   const debouncedSearchTitle = useDebounceValue(searchTitle, 400)
   const [searchStatus, setSearchStatus] = useState<MusicStatus | ''>('')
+  const [deleteDialog, setDeleteDialog] = useState<number | null>(null)
 
   const fetchMusics = async () => {
     setLoading(true)
@@ -239,7 +242,9 @@ export default function MusicList() {
                               size='small'
                             />
                           </td>
-                          <td>{m.artists?.length ? m.artists.map(a => a.name).join(', ') : '-'}</td>
+                          <td>
+                            <ArtistAvatarsCell artists={m.artists} size='compact' />
+                          </td>
                           <td align='right'>
                             <OptionMenu
                               options={[
@@ -297,7 +302,7 @@ export default function MusicList() {
                                   text: 'Supprimer',
                                   icon: <i className='tabler-trash' />,
                                   menuItemProps: {
-                                    onClick: () => handleDelete(m.id),
+                                    onClick: () => setDeleteDialog(m.id),
                                     className: 'text-error'
                                   }
                                 }
@@ -326,6 +331,12 @@ export default function MusicList() {
           </Card>
         </Grid>
       </Grid>
+      <DeleteConfirmDialog
+        open={deleteDialog !== null}
+        onClose={() => setDeleteDialog(null)}
+        onConfirm={async () => { if (deleteDialog !== null) await handleDelete(deleteDialog) }}
+        message='Êtes-vous sûr de vouloir supprimer cette musique ?'
+      />
     </Box>
   )
 }

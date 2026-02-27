@@ -33,6 +33,7 @@ import type { GiftProduct } from '@/types/gift.types'
 import { getLocalizedUrl } from '@/utils/i18n'
 
 // Component Imports
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog'
 import NgoniBreadcrumbs from '@/components/NgoniBreadcrumbs'
 import OptionMenu from '@core/components/option-menu'
 import CustomTextField from '@core/components/mui/TextField'
@@ -49,6 +50,7 @@ export default function GiftProductList() {
   const [searchName, setSearchName] = useState('')
   const debouncedSearchName = useDebounceValue(searchName, 400)
   const [filterActive, setFilterActive] = useState<boolean | undefined>(undefined)
+  const [deleteDialog, setDeleteDialog] = useState<number | null>(null)
 
   const fetchProducts = async () => {
     setLoading(true)
@@ -93,10 +95,10 @@ export default function GiftProductList() {
   }
 
   const handleDelete = async (id: number) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer ce produit cadeau ?')) return
     try {
       await giftProductService.delete(id)
       toast.success('Produit supprimé')
+      setDeleteDialog(null)
       fetchProducts()
     } catch {
       toast.error('Erreur lors de la suppression')
@@ -271,7 +273,7 @@ export default function GiftProductList() {
                                   text: 'Supprimer',
                                   icon: <i className='tabler-trash' />,
                                   menuItemProps: {
-                                    onClick: () => handleDelete(p.id),
+                                    onClick: () => setDeleteDialog(p.id),
                                     className: 'text-error'
                                   }
                                 }
@@ -300,6 +302,12 @@ export default function GiftProductList() {
           </Card>
         </Grid>
       </Grid>
+      <DeleteConfirmDialog
+        open={deleteDialog !== null}
+        onClose={() => setDeleteDialog(null)}
+        onConfirm={async () => { if (deleteDialog !== null) await handleDelete(deleteDialog) }}
+        message='Êtes-vous sûr de vouloir supprimer ce produit cadeau ?'
+      />
     </Box>
   )
 }

@@ -513,15 +513,25 @@ const StyledReactDatePicker = styled(Box)<BoxProps>(({ theme }) => {
       }
     },
     '& .react-datepicker__close-icon': {
-      top: 10,
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: 0,
+      display: 'flex',
+      alignItems: 'center',
       paddingRight: theme.spacing(4),
-      ...(theme.direction === 'rtl' ? { right: 0, left: 'auto' } : {}),
+      ...(theme.direction === 'rtl'
+        ? { right: 'auto', left: 0, paddingRight: 0, paddingLeft: theme.spacing(4) }
+        : {}),
       '&:after': {
         width: 'unset',
         height: 'unset',
         fontSize: '1.5rem',
         color: 'var(--mui-palette-text-primary)',
-        backgroundColor: 'transparent !important'
+        backgroundColor: 'transparent !important',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
       }
     }
   }

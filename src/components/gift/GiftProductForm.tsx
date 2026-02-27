@@ -353,7 +353,7 @@ const GiftProductForm = ({ product, onSubmit, onCancel, loading = false }: GiftP
                   type='submit'
                   variant='contained'
                   disabled={loading}
-                  startIcon={loading ? <CircularProgress size={20} /> : <i className='tabler-check' />}
+                  startIcon={loading ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}
                 >
                   {loading ? 'Enregistrement...' : (product ? 'Mettre à jour' : 'Créer')}
                 </Button>

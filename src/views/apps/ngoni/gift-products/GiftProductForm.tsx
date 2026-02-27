@@ -352,7 +352,7 @@ export default function GiftProductForm() {
                     type='submit'
                     variant='contained'
                     disabled={submitting || !name.trim() || !price}
-                    startIcon={submitting ? <CircularProgress size={20} /> : <i className='tabler-check' />}
+                    startIcon={submitting ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}
                   >
                     {submitting ? 'Création...' : 'Créer'}
                   </Button>

@@ -31,6 +31,7 @@ import type { MusicLicense } from '@/types/license.types'
 import { getLocalizedUrl } from '@/utils/i18n'
 
 // Component Imports
+import DeleteConfirmDialog from '@/components/dialogs/DeleteConfirmDialog'
 import NgoniBreadcrumbs from '@/components/NgoniBreadcrumbs'
 import OptionMenu from '@core/components/option-menu'
 import CustomTextField from '@core/components/mui/TextField'
@@ -46,6 +47,7 @@ export default function LicenseList() {
   const [total, setTotal] = useState(0)
   const [searchQuery, setSearchQuery] = useState('')
   const debouncedSearchQuery = useDebounceValue(searchQuery, 400)
+  const [deleteDialog, setDeleteDialog] = useState<number | null>(null)
 
   const fetchLicenses = async () => {
     setLoading(true)
@@ -92,10 +94,10 @@ export default function LicenseList() {
   }
 
   const handleDelete = async (id: number) => {
-    if (!confirm('Êtes-vous sûr de vouloir supprimer cette licence ?')) return
     try {
       await licenseService.delete(id)
       toast.success('Licence supprimée')
+      setDeleteDialog(null)
       fetchLicenses()
     } catch {
       toast.error('Erreur lors de la suppression')
@@ -265,7 +267,7 @@ export default function LicenseList() {
                                   text: 'Supprimer',
                                   icon: <i className='tabler-trash' />,
                                   menuItemProps: {
-                                    onClick: () => handleDelete(l.id),
+                                    onClick: () => setDeleteDialog(l.id),
                                     className: 'text-error'
                                   }
                                 }
@@ -294,6 +296,12 @@ export default function LicenseList() {
           </Card>
         </Grid>
       </Grid>
+      <DeleteConfirmDialog
+        open={deleteDialog !== null}
+        onClose={() => setDeleteDialog(null)}
+        onConfirm={async () => { if (deleteDialog !== null) await handleDelete(deleteDialog) }}
+        message='Êtes-vous sûr de vouloir supprimer cette licence ?'
+      />
     </Box>
   )
 }

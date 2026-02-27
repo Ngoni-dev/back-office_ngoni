@@ -139,7 +139,7 @@ export default function GenreForm() {
                     type='submit'
                     variant='contained'
                     disabled={submitting || !name.trim()}
-                    startIcon={submitting ? <CircularProgress size={20} /> : <i className='tabler-check' />}
+                    startIcon={submitting ? <i className='tabler-loader animate-spin' /> : <i className='tabler-check' />}
                   >
                     {submitting ? 'Création...' : 'Créer'}
                   </Button>
