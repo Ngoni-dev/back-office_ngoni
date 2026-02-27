@@ -2,7 +2,7 @@
 import FAQ from '@views/pages/faq'
 
 // Data Imports
-import { getFaqData } from '@/app/server/actions'
+import { getFaqData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

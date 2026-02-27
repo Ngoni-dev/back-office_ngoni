@@ -2,7 +2,7 @@
 import Roles from '@views/apps/roles'
 
 // Data Imports
-import { getUserData } from '@/app/server/actions'
+import { getUserData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

@@ -2,17 +2,21 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 // Slice Imports
-import chatReducer from '@/redux-store/slices/chat'
-import calendarReducer from '@/redux-store/slices/calendar'
-import kanbanReducer from '@/redux-store/slices/kanban'
-import emailReducer from '@/redux-store/slices/email'
+import artistReducer from '@/redux-store/slices/artistSlice'
+import authReducer from '@/redux-store/slices/authSlice'
+import genreReducer from '@/redux-store/slices/genreSlice'
+import giftReducer from '@/redux-store/slices/giftSlice'
+import licenseReducer from '@/redux-store/slices/licenseSlice'
+import musicReducer from '@/redux-store/slices/musicSlice'
 
 export const store = configureStore({
   reducer: {
-    chatReducer,
-    calendarReducer,
-    kanbanReducer,
-    emailReducer
+    auth: authReducer,
+    music: musicReducer,
+    artist: artistReducer,
+    genre: genreReducer,
+    license: licenseReducer,
+    gift: giftReducer
   },
   middleware: getDefaultMiddleware => getDefaultMiddleware({ serializableCheck: false })
 })

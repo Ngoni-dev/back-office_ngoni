@@ -30,8 +30,8 @@ const defaultSuggestions: DefaultSuggestionsType[] = [
         icon: 'tabler-trending-up'
       },
       {
-        label: 'CRM',
-        href: '/dashboards/crm',
+        label: 'Dashboard',
+        href: '/',
         icon: 'tabler-chart-pie-2'
       },
       {

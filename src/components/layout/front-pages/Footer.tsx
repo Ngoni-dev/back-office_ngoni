@@ -173,23 +173,13 @@ const Footer = ({ mode }: { mode: Mode }) => {
           )}
         >
           <Typography className='text-white' variant='body2'>
-            <span>{`© ${new Date().getFullYear()}, Made with `}</span>
-            <span>{`❤️`}</span>
-            <span>{` by `}</span>
-            <Link href='https://pixinvent.com/' target='_blank' className='font-medium text-white'>
-              Pixinvent
-            </Link>
+            <span>{`© ${new Date().getFullYear()}, Ngoni - Tous droits réservés`}</span>
           </Typography>
           <div className='flex gap-1.5 items-center'>
-            <IconButton component={Link} size='small' href='https://github.com/pixinvent' target='_blank'>
-              <i className='tabler-brand-github-filled text-white text-lg' />
+            <IconButton component={Link} size='small' href='https://ngoni.com' target='_blank'>
+              <i className='tabler-world text-white text-lg' />
             </IconButton>
-            <IconButton component={Link} size='small' href='https://www.facebook.com/pixinvents/' target='_blank'>
-              <i className='tabler-brand-facebook-filled text-white text-lg' />
-            </IconButton>
-            <IconButton component={Link} size='small' href='https://x.com/pixinvents' target='_blank'>
-              <i className='tabler-brand-twitter-filled text-white text-lg' />
-            </IconButton>
+          </div>
             <IconButton
               component={Link}
               size='small'

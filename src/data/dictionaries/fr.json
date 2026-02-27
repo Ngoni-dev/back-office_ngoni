@@ -100,6 +100,12 @@
     "menuLevels": "Niveaux de menus",
     "menuLevel2": "Niveau menu 2",
     "menuLevel3": "Niveau menu 3",
-    "disabledMenu": "Menu désactivé"
+    "disabledMenu": "Menu désactivé",
+    "ngoni": "Ngoni",
+    "music": "Musique",
+    "artists": "Artistes",
+    "genres": "Genres",
+    "licenses": "Licences",
+    "giftProducts": "Produits cadeaux"
   }
 }

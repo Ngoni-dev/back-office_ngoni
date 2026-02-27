@@ -1,29 +1,29 @@
 'use client'
 
 // React Imports
-import { useState } from 'react'
 import type { MouseEvent } from 'react'
+import { useState } from 'react'
 
 // MUI Imports
-import Dialog from '@mui/material/Dialog'
-import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
-import Button from '@mui/material/Button'
-import IconButton from '@mui/material/IconButton'
-import Typography from '@mui/material/Typography'
 import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import IconButton from '@mui/material/IconButton'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import ListItemAvatar from '@mui/material/ListItemAvatar'
 import ListItemText from '@mui/material/ListItemText'
 import Menu from '@mui/material/Menu'
 import MenuItem from '@mui/material/MenuItem'
+import Typography from '@mui/material/Typography'
 
 // Component Imports
-import DialogCloseButton from '../DialogCloseButton'
 import CustomAutocomplete from '@core/components/mui/Autocomplete'
-import CustomTextField from '@core/components/mui/TextField'
 import CustomAvatar from '@core/components/mui/Avatar'
+import CustomTextField from '@core/components/mui/TextField'
+import DialogCloseButton from '../DialogCloseButton'
 
 // Config Imports
 import themeConfig from '@configs/themeConfig'
@@ -239,7 +239,7 @@ const ShareProject = ({ open, setOpen }: ShareProjectProps) => {
             <Typography
               color='text.primary'
               className='font-medium'
-            >{`Public to ${themeConfig.templateName} - Pixinvent`}</Typography>
+            >{`Public to ${themeConfig.templateName}`}</Typography>
           </div>
           <Button variant='contained' className='flex' startIcon={<i className='tabler-link text-base' />}>
             Copy Project Link

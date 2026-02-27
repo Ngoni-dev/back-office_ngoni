@@ -8,8 +8,8 @@ import Login from '@views/Login'
 import { getServerMode } from '@core/utils/serverHelpers'
 
 export const metadata: Metadata = {
-  title: 'Login',
-  description: 'Login to your account'
+  title: 'Connexion - Ngoni Admin',
+  description: 'Connectez-vous à votre compte administrateur Ngoni'
 }
 
 const LoginPage = async () => {

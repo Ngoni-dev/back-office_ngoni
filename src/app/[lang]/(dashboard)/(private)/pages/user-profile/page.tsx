@@ -11,7 +11,7 @@ import type { Data } from '@/types/pages/profileTypes'
 import UserProfile from '@views/pages/user-profile'
 
 // Data Imports
-import { getProfileData } from '@/app/server/actions'
+import { getProfileData } from '@/data/demoStub'
 
 const ProfileTab = dynamic(() => import('@views/pages/user-profile/profile'))
 const TeamsTab = dynamic(() => import('@views/pages/user-profile/teams'))

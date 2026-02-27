@@ -11,37 +11,9 @@ type SearchData = {
 const data: SearchData[] = [
   {
     id: '1',
-    name: 'CRM Dashboard',
-    url: '/dashboards/crm',
+    name: 'Dashboard Ngoni',
+    url: '/',
     icon: 'tabler-chart-pie-2',
-    section: 'Dashboards'
-  },
-  {
-    id: '2',
-    name: 'Analytics Dashboard',
-    url: '/dashboards/analytics',
-    icon: 'tabler-trending-up',
-    section: 'Dashboards'
-  },
-  {
-    id: '3',
-    name: 'eCommerce Dashboard',
-    url: '/dashboards/ecommerce',
-    icon: 'tabler-shopping-cart',
-    section: 'Dashboards'
-  },
-  {
-    id: '4',
-    name: 'Academy Dashboard',
-    url: '/dashboards/academy',
-    icon: 'tabler-school',
-    section: 'Dashboards'
-  },
-  {
-    id: '5',
-    name: 'Logistics Dashboard',
-    url: '/dashboards/logistics',
-    icon: 'tabler-truck',
     section: 'Dashboards'
   },
   {

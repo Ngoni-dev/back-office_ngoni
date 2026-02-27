@@ -20,7 +20,7 @@
 import type { ToastPosition } from 'react-toastify'
 
 // Type Imports
-import type { Mode, Skin, Layout, LayoutComponentPosition, LayoutComponentWidth } from '@core/types'
+import type { Layout, LayoutComponentPosition, LayoutComponentWidth, Mode, Skin } from '@core/types'
 
 type Navbar = {
   type: LayoutComponentPosition
@@ -54,9 +54,9 @@ export type Config = {
 }
 
 const themeConfig: Config = {
-  templateName: 'Vuexy',
-  homePageUrl: '/dashboards/crm',
-  settingsCookieName: 'vuexy-mui-next-demo-1',
+  templateName: 'Ngoni Admin',
+  homePageUrl: '/',
+  settingsCookieName: 'ngoni-admin',
   mode: 'system', // 'system', 'light', 'dark'
   skin: 'default', // 'default', 'bordered'
   semiDark: false, // true, false
@@ -70,7 +70,7 @@ const themeConfig: Config = {
     detached: true, //! true, false (This will not work in the Horizontal Layout or floating navbar is enabled)
     blur: true // true, false
   },
-  contentWidth: 'compact', // 'compact', 'wide'
+  contentWidth: 'wide', // 'compact', 'wide' — wide pour que les tables prennent toute la largeur
   footer: {
     type: 'static', // 'fixed', 'static'
     contentWidth: 'compact', // 'compact', 'wide'

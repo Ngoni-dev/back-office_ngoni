@@ -22,7 +22,7 @@ type Props = ComponentProps<typeof ReactDatePickerComponent> & {
 const StyledReactDatePicker = styled(Box)<BoxProps>(({ theme }) => {
   return {
     '& .react-datepicker-popper': {
-      zIndex: 20,
+      zIndex: 1500,
       paddingTop: `${theme.spacing(0.5)} !important`
     },
     '& .react-datepicker-wrapper': {

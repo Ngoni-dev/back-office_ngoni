@@ -14,7 +14,7 @@ import SourceVisits from '@views/dashboards/analytics/SourceVisits'
 import ProjectsTable from '@views/dashboards/analytics/ProjectsTable'
 
 // Data Imports
-import { getProfileData } from '@/app/server/actions'
+import { getProfileData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

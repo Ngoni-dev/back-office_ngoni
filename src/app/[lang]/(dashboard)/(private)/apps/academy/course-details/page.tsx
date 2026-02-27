@@ -6,7 +6,7 @@ import Details from '@views/apps/academy/course-details/Details'
 import Sidebar from '@views/apps/academy/course-details/Sidebar'
 
 // Data Imports
-import { getAcademyData } from '@/app/server/actions'
+import { getAcademyData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

@@ -29,8 +29,8 @@ const noResultData: NoResultData[] = [
     icon: 'tabler-user'
   },
   {
-    label: 'CRM',
-    href: '/dashboards/crm',
+    label: 'Dashboard',
+    href: '/',
     icon: 'tabler-chart-donut-3'
   }
 ]

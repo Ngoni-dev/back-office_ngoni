@@ -14,7 +14,7 @@ import DialogCreateApp from '@views/pages/dialog-examples/DialogCreateApp'
 import DialogPricing from '@views/pages/dialog-examples/DialogPricing'
 
 // Data Imports
-import { getPricingData } from '@/app/server/actions'
+import { getPricingData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

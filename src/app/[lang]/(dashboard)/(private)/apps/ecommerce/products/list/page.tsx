@@ -6,7 +6,7 @@ import ProductListTable from '@views/apps/ecommerce/products/list/ProductListTab
 import ProductCard from '@views/apps/ecommerce/products/list/ProductCard'
 
 // Data Imports
-import { getEcommerceData } from '@/app/server/actions'
+import { getEcommerceData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

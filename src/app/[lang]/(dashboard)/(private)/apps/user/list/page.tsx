@@ -2,7 +2,7 @@
 import UserList from '@views/apps/user/list'
 
 // Data Imports
-import { getUserData } from '@/app/server/actions'
+import { getUserData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

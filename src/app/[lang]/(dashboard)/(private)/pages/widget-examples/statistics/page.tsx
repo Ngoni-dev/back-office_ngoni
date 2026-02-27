@@ -25,7 +25,7 @@ import LogisticsStatisticsCard from '@views/apps/logistics/dashboard/LogisticsSt
 import UserListCards from '@views/pages/widget-examples/statistics/UserListCards'
 
 // Data Imports
-import { getStatisticsData } from '@/app/server/actions'
+import { getStatisticsData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

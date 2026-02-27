@@ -6,7 +6,7 @@ import AddCard from '@views/apps/invoice/add/AddCard'
 import AddActions from '@views/apps/invoice/add/AddActions'
 
 // Data Imports
-import { getInvoiceData } from '@/app/server/actions'
+import { getInvoiceData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

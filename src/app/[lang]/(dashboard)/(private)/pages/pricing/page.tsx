@@ -2,7 +2,7 @@
 import Pricing from '@views/pages/pricing'
 
 // Data Imports
-import { getPricingData } from '@/app/server/actions'
+import { getPricingData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

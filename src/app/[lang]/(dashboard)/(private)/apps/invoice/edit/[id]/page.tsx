@@ -12,7 +12,7 @@ import EditCard from '@views/apps/invoice/edit/EditCard'
 import EditActions from '@views/apps/invoice/edit/EditActions'
 
 // Data Imports
-import { getInvoiceData } from '@/app/server/actions'
+import { getInvoiceData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

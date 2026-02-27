@@ -11,7 +11,7 @@ import LogisticsOrdersByCountries from '@/views/apps/logistics/dashboard/Logisti
 import LogisticsOverviewTable from '@views/apps/logistics/dashboard/LogisticsOverviewTable'
 
 //Data Imports
-import { getLogisticsData, getStatisticsData } from '@/app/server/actions'
+import { getLogisticsData, getStatisticsData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

@@ -8,8 +8,8 @@ import ForgotPassword from '@views/ForgotPassword'
 import { getServerMode } from '@core/utils/serverHelpers'
 
 export const metadata: Metadata = {
-  title: 'Forgot Password',
-  description: 'Forgotten Password to your account'
+  title: 'Mot de passe oublié - Ngoni Admin',
+  description: 'Réinitialisez votre mot de passe administrateur Ngoni'
 }
 
 const ForgotPasswordPage = async () => {

@@ -15,7 +15,7 @@ import Transactions from '@views/apps/ecommerce/dashboard/Transactions'
 import InvoiceListTable from '@views/apps/ecommerce/dashboard/InvoiceListTable'
 
 // Data Imports
-import { getInvoiceData } from '@/app/server/actions'
+import { getInvoiceData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

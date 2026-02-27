@@ -11,7 +11,7 @@ import AssignmentProgress from '@views/apps/academy/dashboard/AssignmentProgress
 import CourseTable from '@views/apps/academy/dashboard/CourseTable'
 
 // Data Imports
-import { getAcademyData } from '@/app/server/actions'
+import { getAcademyData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

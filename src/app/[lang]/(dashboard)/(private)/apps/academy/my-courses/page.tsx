@@ -5,7 +5,7 @@ import AcademyMyCourse from '@/views/apps/academy/my-courses'
 import { getServerMode } from '@core/utils/serverHelpers'
 
 // Data Imports
-import { getAcademyData } from '@/app/server/actions'
+import { getAcademyData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

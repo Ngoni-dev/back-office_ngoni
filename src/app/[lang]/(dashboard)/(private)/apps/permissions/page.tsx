@@ -2,7 +2,7 @@
 import Permissions from '@views/apps/permissions'
 
 // Data Imports
-import { getPermissionsData } from '@/app/server/actions'
+import { getPermissionsData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

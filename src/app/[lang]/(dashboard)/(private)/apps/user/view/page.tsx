@@ -15,7 +15,7 @@ import UserLeftOverview from '@views/apps/user/view/user-left-overview'
 import UserRight from '@views/apps/user/view/user-right'
 
 // Data Imports
-import { getPricingData } from '@/app/server/actions'
+import { getPricingData } from '@/data/demoStub'
 
 const OverViewTab = dynamic(() => import('@views/apps/user/view/user-right/overview'))
 const SecurityTab = dynamic(() => import('@views/apps/user/view/user-right/security'))

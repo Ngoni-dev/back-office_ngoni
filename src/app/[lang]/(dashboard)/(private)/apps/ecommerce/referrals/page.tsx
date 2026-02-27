@@ -8,7 +8,7 @@ import InviteAndShare from '@views/apps/ecommerce/referrals/InviteAndShare'
 import ReferredUsersTable from '@views/apps/ecommerce/referrals/ReferredUsersTable'
 
 // Data Imports
-import { getEcommerceData, getStatisticsData } from '@/app/server/actions'
+import { getEcommerceData, getStatisticsData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

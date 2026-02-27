@@ -8,7 +8,7 @@ import type { InvoiceType } from '@/types/apps/invoiceTypes'
 import Preview from '@views/apps/invoice/preview'
 
 // Data Imports
-import { getInvoiceData } from '@/app/server/actions'
+import { getInvoiceData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

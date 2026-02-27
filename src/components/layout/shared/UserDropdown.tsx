@@ -21,8 +21,8 @@ import Divider from '@mui/material/Divider'
 import MenuItem from '@mui/material/MenuItem'
 import Button from '@mui/material/Button'
 
-// Third-party Imports
-import { signOut, useSession } from 'next-auth/react'
+// Hook Imports
+import { useAuth } from '@/hooks/useAuth'
 
 // Type Imports
 import type { Locale } from '@configs/i18n'
@@ -52,7 +52,7 @@ const UserDropdown = () => {
 
   // Hooks
   const router = useRouter()
-  const { data: session } = useSession()
+  const { user, logout } = useAuth()
   const { settings } = useSettings()
   const { lang: locale } = useParams()
 
@@ -73,15 +73,9 @@ const UserDropdown = () => {
   }
 
   const handleUserLogout = async () => {
-    try {
-      // Sign out from the app
-      await signOut({ callbackUrl: process.env.NEXT_PUBLIC_APP_URL })
-    } catch (error) {
-      console.error(error)
-
-      // Show above error in a toast like following
-      // toastService.error((err as Error).message)
-    }
+    handleDropdownClose()
+    await logout()
+    router.push(`/${locale}/login`)
   }
 
   return (
@@ -95,8 +89,8 @@ const UserDropdown = () => {
       >
         <Avatar
           ref={anchorRef}
-          alt={session?.user?.name || ''}
-          src={session?.user?.image || ''}
+          alt={user?.name || ''}
+          src={user?.photo || ''}
           onClick={handleDropdownOpen}
           className='cursor-pointer bs-[38px] is-[38px]'
         />
@@ -120,15 +114,16 @@ const UserDropdown = () => {
               <ClickAwayListener onClickAway={e => handleDropdownClose(e as MouseEvent | TouchEvent)}>
                 <MenuList>
                   <div className='flex items-center plb-2 pli-6 gap-2' tabIndex={-1}>
-                    <Avatar alt={session?.user?.name || ''} src={session?.user?.image || ''} />
+                    <Avatar alt={user?.name || ''} src={user?.photo || ''} />
                     <div className='flex items-start flex-col'>
                       <Typography className='font-medium' color='text.primary'>
-                        {session?.user?.name || ''}
+                        {user?.name || ''}
                       </Typography>
-                      <Typography variant='caption'>{session?.user?.email || ''}</Typography>
+                      <Typography variant='caption'>{user?.email || ''}</Typography>
                     </div>
                   </div>
                   <Divider className='mlb-1' />
+                  {/* Non disponibles / pas nécessaires pour le back-office admin
                   <MenuItem className='mli-2 gap-3' onClick={e => handleDropdownClose(e, '/pages/user-profile')}>
                     <i className='tabler-user' />
                     <Typography color='text.primary'>My Profile</Typography>
@@ -145,6 +140,7 @@ const UserDropdown = () => {
                     <i className='tabler-help-circle' />
                     <Typography color='text.primary'>FAQ</Typography>
                   </MenuItem>
+                  */}
                   <div className='flex items-center plb-2 pli-3'>
                     <Button
                       fullWidth
@@ -155,7 +151,7 @@ const UserDropdown = () => {
                       onClick={handleUserLogout}
                       sx={{ '& .MuiButton-endIcon': { marginInlineStart: 1.5 } }}
                     >
-                      Logout
+                      Se déconnecter
                     </Button>
                   </div>
                 </MenuList>

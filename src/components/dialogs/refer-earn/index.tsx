@@ -4,26 +4,26 @@
 import type { ReactNode } from 'react'
 
 // MUI Imports
-import Dialog from '@mui/material/Dialog'
-import DialogTitle from '@mui/material/DialogTitle'
-import DialogContent from '@mui/material/DialogContent'
-import Typography from '@mui/material/Typography'
-import Grid from '@mui/material/Grid'
-import Divider from '@mui/material/Divider'
 import Button from '@mui/material/Button'
+import Dialog from '@mui/material/Dialog'
+import DialogContent from '@mui/material/DialogContent'
+import DialogTitle from '@mui/material/DialogTitle'
+import Divider from '@mui/material/Divider'
+import Grid from '@mui/material/Grid'
 import InputAdornment from '@mui/material/InputAdornment'
+import Typography from '@mui/material/Typography'
 
 // Third-party Imports
 import classnames from 'classnames'
 
 // Component Imports
-import CustomIconButton from '@core/components/mui/IconButton'
-import CustomTextField from '@core/components/mui/TextField'
-import CustomAvatar from '@core/components/mui/Avatar'
-import DialogCloseButton from '../DialogCloseButton'
 import Keyboard from '@/assets/svg/Keyboard'
 import Paper from '@/assets/svg/Paper'
 import Rocket from '@/assets/svg/Rocket'
+import CustomAvatar from '@core/components/mui/Avatar'
+import CustomIconButton from '@core/components/mui/IconButton'
+import CustomTextField from '@core/components/mui/TextField'
+import DialogCloseButton from '../DialogCloseButton'
 
 // Config Imports
 import themeConfig from '@configs/themeConfig'
@@ -72,10 +72,9 @@ const ReferEarn = ({ open, setOpen }: ReferEarnProps) => {
         <i className='tabler-x' />
       </DialogCloseButton>
       <DialogTitle variant='h4' className='flex gap-2 flex-col text-center sm:pbs-16 sm:pbe-12 sm:pli-16'>
-        Refer & Earn
+        Parrainez & Gagnez
         <Typography component='span' className='flex flex-col text-center'>
-          {`Invite your friend to ${themeConfig.templateName}, if they sign up, you and your friend will get 30 days free
-          trial`}
+          {`Invitez vos amis sur ${themeConfig.templateName}, si ils s'inscrivent, vous et votre ami recevrez 30 jours d'essai gratuit`}
         </Typography>
       </DialogTitle>
       <DialogContent className='flex flex-col gap-6 pbs-0 sm:pli-16 sm:pbe-16'>
@@ -112,7 +111,7 @@ const ReferEarn = ({ open, setOpen }: ReferEarnProps) => {
               size='small'
               id='refer-email'
               placeholder='johnDoe@email.com'
-              label=' Enter your friend&#39;s email address and invite them to join Vuexy 😍'
+              label=' Enter your friend&#39;s email address and invite them to join Ngoni Admin 😍'
             />
             <Button variant='contained' className='max-sm:is-full'>
               Send
@@ -126,8 +125,8 @@ const ReferEarn = ({ open, setOpen }: ReferEarnProps) => {
               fullWidth
               size='small'
               id='refer-social'
-              placeholder='http://pixinvent.link'
-              label='You can also copy and send it or share it on your social media. 🚀'
+              placeholder='http://ngoni.link'
+              label='Vous pouvez également copier et partager ce lien sur vos réseaux sociaux. 🚀'
               slotProps={{
                 input: {
                   endAdornment: (

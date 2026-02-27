@@ -26,7 +26,7 @@ const NotFoundPage = async (props: { params: Promise<{ lang: string }> }) => {
   return (
     <Providers direction={direction}>
       <BlankLayout systemMode={systemMode}>
-        <NotFound mode={mode} />
+        <NotFound mode={mode} lang={lang} />
       </BlankLayout>
     </Providers>
   )

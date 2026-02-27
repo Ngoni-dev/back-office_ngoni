@@ -8,29 +8,25 @@ import Link from 'next/link'
 import { useParams, useRouter, useSearchParams } from 'next/navigation'
 
 // MUI Imports
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { styled, useTheme } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
+import Button from '@mui/material/Button'
+import Checkbox from '@mui/material/Checkbox'
+import FormControlLabel from '@mui/material/FormControlLabel'
 import IconButton from '@mui/material/IconButton'
 import InputAdornment from '@mui/material/InputAdornment'
-import Checkbox from '@mui/material/Checkbox'
-import Button from '@mui/material/Button'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Divider from '@mui/material/Divider'
-import Alert from '@mui/material/Alert'
+import { styled, useTheme } from '@mui/material/styles'
+import Typography from '@mui/material/Typography'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
-// Third-party Imports
-import { signIn } from 'next-auth/react'
-import { Controller, useForm } from 'react-hook-form'
 import { valibotResolver } from '@hookform/resolvers/valibot'
-import { email, object, minLength, string, pipe, nonEmpty } from 'valibot'
-import type { SubmitHandler } from 'react-hook-form'
-import type { InferInput } from 'valibot'
 import classnames from 'classnames'
+import type { SubmitHandler } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
+import type { InferInput } from 'valibot'
+import { email, minLength, nonEmpty, object, pipe, string } from 'valibot'
 
 // Type Imports
-import type { SystemMode } from '@core/types'
 import type { Locale } from '@/configs/i18n'
+import type { SystemMode } from '@core/types'
 
 // Component Imports
 import Logo from '@components/layout/shared/Logo'
@@ -40,24 +36,26 @@ import CustomTextField from '@core/components/mui/TextField'
 import themeConfig from '@configs/themeConfig'
 
 // Hook Imports
+import { useAuth } from '@/hooks/useAuth'
 import { useImageVariant } from '@core/hooks/useImageVariant'
 import { useSettings } from '@core/hooks/useSettings'
 
 // Util Imports
 import { getLocalizedUrl } from '@/utils/i18n'
 
-// Styled Custom Components
-const LoginIllustration = styled('img')(({ theme }) => ({
+// Styled Custom Components – logo Ngoni en grand dans la zone gauche
+const LoginLogo = styled('img')(({ theme }) => ({
   zIndex: 2,
   blockSize: 'auto',
-  maxBlockSize: 680,
+  maxBlockSize: 1000,
   maxInlineSize: '100%',
-  margin: theme.spacing(12),
+  objectFit: 'contain',
+  margin: theme.spacing(6),
   [theme.breakpoints.down(1536)]: {
-    maxBlockSize: 550
+    maxBlockSize: 420
   },
   [theme.breakpoints.down('lg')]: {
-    maxBlockSize: 450
+    maxBlockSize: 340
   }
 }))
 
@@ -77,11 +75,11 @@ type ErrorType = {
 type FormData = InferInput<typeof schema>
 
 const schema = object({
-  email: pipe(string(), minLength(1, 'This field is required'), email('Email is invalid')),
+  email: pipe(string(), minLength(1, 'Ce champ est requis'), email('Email invalide')),
   password: pipe(
     string(),
-    nonEmpty('This field is required'),
-    minLength(5, 'Password must be at least 5 characters long')
+    nonEmpty('Ce champ est requis'),
+    minLength(5, 'Le mot de passe doit contenir au moins 5 caractères')
   )
 })
 
@@ -93,13 +91,10 @@ const Login = ({ mode }: { mode: SystemMode }) => {
   // Vars
   const darkImg = '/images/pages/auth-mask-dark.png'
   const lightImg = '/images/pages/auth-mask-light.png'
-  const darkIllustration = '/images/illustrations/auth/v2-login-dark.png'
-  const lightIllustration = '/images/illustrations/auth/v2-login-light.png'
-  const borderedDarkIllustration = '/images/illustrations/auth/v2-login-dark-border.png'
-  const borderedLightIllustration = '/images/illustrations/auth/v2-login-light-border.png'
 
   // Hooks
   const router = useRouter()
+  const { login, loading } = useAuth()
   const searchParams = useSearchParams()
   const { lang: locale } = useParams()
   const { settings } = useSettings()
@@ -114,39 +109,26 @@ const Login = ({ mode }: { mode: SystemMode }) => {
   } = useForm<FormData>({
     resolver: valibotResolver(schema),
     defaultValues: {
-      email: 'admin@vuexy.com',
-      password: 'admin'
+      email: 'admin@ngoni.com',
+      password: 'password'
     }
   })
-
-  const characterIllustration = useImageVariant(
-    mode,
-    lightIllustration,
-    darkIllustration,
-    borderedLightIllustration,
-    borderedDarkIllustration
-  )
 
   const handleClickShowPassword = () => setIsPasswordShown(show => !show)
 
   const onSubmit: SubmitHandler<FormData> = async (data: FormData) => {
-    const res = await signIn('credentials', {
-      email: data.email,
-      password: data.password,
-      redirect: false
-    })
-
-    if (res && res.ok && res.error === null) {
-      // Vars
+    setErrorState(null)
+    try {
+      await login({
+        email: data.email,
+        password: data.password
+      })
       const redirectURL = searchParams.get('redirectTo') ?? '/'
-
       router.replace(getLocalizedUrl(redirectURL, locale as Locale))
-    } else {
-      if (res?.error) {
-        const error = JSON.parse(res.error)
-
-        setErrorState(error)
-      }
+    } catch (err: unknown) {
+      const apiError = err as { response?: { data?: { message?: string; errors?: Record<string, string[]> } } }
+      const msg = apiError?.response?.data?.message || apiError?.response?.data?.errors?.email?.[0]
+      setErrorState({ message: [msg || 'Identifiants incorrects'] })
     }
   }
 
@@ -160,7 +142,7 @@ const Login = ({ mode }: { mode: SystemMode }) => {
           }
         )}
       >
-        <LoginIllustration src={characterIllustration} alt='character-illustration' />
+        <LoginLogo src='/images/ngoni_logo.png' alt='Ngoni' />
         {!hidden && <MaskImg alt='mask' src={authBackground} />}
       </div>
       <div className='flex justify-center items-center bs-full bg-backgroundPaper !min-is-full p-6 md:!min-is-[unset] md:p-12 md:is-[480px]'>
@@ -169,15 +151,9 @@ const Login = ({ mode }: { mode: SystemMode }) => {
         </div>
         <div className='flex flex-col gap-6 is-full sm:is-auto md:is-full sm:max-is-[400px] md:max-is-[unset] mbs-8 sm:mbs-11 md:mbs-0'>
           <div className='flex flex-col gap-1'>
-            <Typography variant='h4'>{`Welcome to ${themeConfig.templateName}! 👋🏻`}</Typography>
-            <Typography>Please sign-in to your account and start the adventure</Typography>
+            <Typography variant='h4'>{`Bienvenue sur ${themeConfig.templateName}! 👋🏻`}</Typography>
+            <Typography>Connectez-vous à votre compte administrateur pour gérer le catalogue Ngoni</Typography>
           </div>
-          <Alert icon={false} className='bg-[var(--mui-palette-primary-lightOpacity)]'>
-            <Typography variant='body2' color='primary.main'>
-              Email: <span className='font-medium'>admin@vuexy.com</span> / Pass:{' '}
-              <span className='font-medium'>admin</span>
-            </Typography>
-          </Alert>
           <form
             noValidate
             autoComplete='off'
@@ -196,14 +172,14 @@ const Login = ({ mode }: { mode: SystemMode }) => {
                   fullWidth
                   type='email'
                   label='Email'
-                  placeholder='Enter your email'
+                  placeholder='Entrez votre email'
                   onChange={e => {
                     field.onChange(e.target.value)
                     errorState !== null && setErrorState(null)
                   }}
                   {...((errors.email || errorState !== null) && {
                     error: true,
-                    helperText: errors?.email?.message || errorState?.message[0]
+                    helperText: errors?.email?.message || (Array.isArray(errorState?.message) ? errorState.message[0] : errorState?.message)
                   })}
                 />
               )}
@@ -216,7 +192,7 @@ const Login = ({ mode }: { mode: SystemMode }) => {
                 <CustomTextField
                   {...field}
                   fullWidth
-                  label='Password'
+                  label='Mot de passe'
                   placeholder='············'
                   id='login-password'
                   type={isPasswordShown ? 'text' : 'password'}
@@ -244,35 +220,25 @@ const Login = ({ mode }: { mode: SystemMode }) => {
               )}
             />
             <div className='flex justify-between items-center gap-x-3 gap-y-1 flex-wrap'>
-              <FormControlLabel control={<Checkbox defaultChecked />} label='Remember me' />
+              <FormControlLabel control={<Checkbox defaultChecked />} label='Se souvenir de moi' />
               <Typography
                 className='text-end'
                 color='primary.main'
                 component={Link}
                 href={getLocalizedUrl('/forgot-password', locale as Locale)}
               >
-                Forgot password?
+                Mot de passe oublié ?
               </Typography>
             </div>
-            <Button fullWidth variant='contained' type='submit'>
-              Login
+            <Button fullWidth variant='contained' type='submit' disabled={loading}>
+              {loading ? 'Connexion...' : 'Se connecter'}
             </Button>
             <div className='flex justify-center items-center flex-wrap gap-2'>
-              <Typography>New on our platform?</Typography>
+              <Typography>Nouveau sur la plateforme ?</Typography>
               <Typography component={Link} href={getLocalizedUrl('/register', locale as Locale)} color='primary.main'>
-                Create an account
+                Créer un compte
               </Typography>
             </div>
-            <Divider className='gap-2'>or</Divider>
-            <Button
-              color='secondary'
-              className='self-center text-textPrimary'
-              startIcon={<img src='/images/logos/google.png' alt='Google' width={22} />}
-              sx={{ '& .MuiButton-startIcon': { marginInlineEnd: 3 } }}
-              onClick={() => signIn('google')}
-            >
-              Sign in with Google
-            </Button>
           </form>
         </div>
       </div>

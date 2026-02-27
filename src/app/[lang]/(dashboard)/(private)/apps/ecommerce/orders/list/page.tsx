@@ -2,7 +2,7 @@
 import OrderList from '@views/apps/ecommerce/orders/list'
 
 // Data Imports
-import { getEcommerceData } from '@/app/server/actions'
+import { getEcommerceData } from '@/data/demoStub'
 
 /**
  * ! If you need data using an API call, uncomment the below API code, update the `process.env.API_URL` variable in the

@@ -8,8 +8,8 @@ import Register from '@views/Register'
 import { getServerMode } from '@core/utils/serverHelpers'
 
 export const metadata: Metadata = {
-  title: 'Register',
-  description: 'Register to your account'
+  title: 'Inscription - Ngoni Admin',
+  description: 'Créez votre compte administrateur Ngoni'
 }
 
 const RegisterPage = async () => {
