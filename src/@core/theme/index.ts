@@ -39,9 +39,9 @@ const theme = (settings: Settings, mode: SystemMode, direction: Theme['direction
     customShadows: customShadows(mode),
     mainColorChannels: {
       light: '47 43 61',
-      dark: '225 222 245',
+      dark: '255 255 255',
       lightShadow: '47 43 61',
-      darkShadow: '19 17 32'
+      darkShadow: '15 20 25'
     }
   } as Theme
 }

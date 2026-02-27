@@ -157,6 +157,7 @@ declare module '@mui/material/styles' {
       tableHeaderBg: string
       tooltipText: string
       trackBg: string
+      sidebarBg?: string
     }
   }
   interface PaletteOptions {
@@ -168,6 +169,7 @@ declare module '@mui/material/styles' {
       tableHeaderBg?: string
       tooltipText?: string
       trackBg?: string
+      sidebarBg?: string
     }
   }
 

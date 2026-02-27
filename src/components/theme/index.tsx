@@ -23,6 +23,7 @@ import ModeChanger from './ModeChanger'
 
 // Config Imports
 import themeConfig from '@configs/themeConfig'
+import primaryColorConfig from '@configs/primaryColorConfig'
 
 // Hook Imports
 import { useSettings } from '@core/hooks/useSettings'
@@ -59,14 +60,18 @@ const CustomThemeProvider = (props: Props) => {
 
   // Merge the primary color scheme override with the core theme
   const theme = useMemo(() => {
+    const primaryConfig = primaryColorConfig.find((c) => c.main === settings.primaryColor)
+    const primaryLight = primaryConfig?.light ?? lighten(settings.primaryColor as string, 0.2)
+    const primaryDark = primaryConfig?.dark ?? darken(settings.primaryColor as string, 0.1)
+
     const newTheme = {
       colorSchemes: {
         light: {
           palette: {
             primary: {
               main: settings.primaryColor,
-              light: lighten(settings.primaryColor as string, 0.2),
-              dark: darken(settings.primaryColor as string, 0.1)
+              light: primaryLight,
+              dark: primaryDark
             }
           }
         },
@@ -74,8 +79,8 @@ const CustomThemeProvider = (props: Props) => {
           palette: {
             primary: {
               main: settings.primaryColor,
-              light: lighten(settings.primaryColor as string, 0.2),
-              dark: darken(settings.primaryColor as string, 0.1)
+              light: primaryLight,
+              dark: primaryDark
             }
           }
         }
