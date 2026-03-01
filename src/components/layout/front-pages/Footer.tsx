@@ -179,7 +179,6 @@ const Footer = ({ mode }: { mode: Mode }) => {
             <IconButton component={Link} size='small' href='https://ngoni.com' target='_blank'>
               <i className='tabler-world text-white text-lg' />
             </IconButton>
-          </div>
             <IconButton
               component={Link}
               size='small'

@@ -187,7 +187,7 @@ const GiftProductForm = ({ product, onSubmit, onCancel, loading = false }: GiftP
         <CardContent>
           <Grid container spacing={4}>
             {/* Image Upload Section */}
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Box display='flex' flexDirection='column' alignItems='center' gap={2}>
                 <Typography variant='subtitle2' color='text.secondary'>
                   Image du produit
@@ -213,7 +213,7 @@ const GiftProductForm = ({ product, onSubmit, onCancel, loading = false }: GiftP
                 )}
 
                 <FileUpload
-                  accept='image/*'
+                  accept={{ 'image/*': ['.png', '.jpg', '.jpeg'] }}
                   maxSize={5 * 1024 * 1024} // 5MB
                   onFileSelect={handleImageSelect}
                   label='Image du produit'
@@ -229,7 +229,7 @@ const GiftProductForm = ({ product, onSubmit, onCancel, loading = false }: GiftP
             </Grid>
 
             {/* Animation Upload Section */}
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <Box display='flex' flexDirection='column' alignItems='center' gap={2}>
                 <Typography variant='subtitle2' color='text.secondary'>
                   Animation du produit
@@ -271,7 +271,7 @@ const GiftProductForm = ({ product, onSubmit, onCancel, loading = false }: GiftP
                 )}
 
                 <FileUpload
-                  accept='video/*,.gif'
+                  accept={{ 'video/*': ['.mp4', '.webm'], 'image/gif': ['.gif'] }}
                   maxSize={10 * 1024 * 1024} // 10MB
                   onFileSelect={handleAnimationSelect}
                   label='Animation du produit'
@@ -287,7 +287,7 @@ const GiftProductForm = ({ product, onSubmit, onCancel, loading = false }: GiftP
             </Grid>
 
             {/* Name Field */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <CustomTextField
                 fullWidth
                 required
@@ -302,7 +302,7 @@ const GiftProductForm = ({ product, onSubmit, onCancel, loading = false }: GiftP
             </Grid>
 
             {/* Price Field */}
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12, md: 6 }}>
               <CustomTextField
                 fullWidth
                 required
@@ -321,7 +321,7 @@ const GiftProductForm = ({ product, onSubmit, onCancel, loading = false }: GiftP
             </Grid>
 
             {/* Description Field */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <CustomTextField
                 fullWidth
                 multiline
@@ -337,7 +337,7 @@ const GiftProductForm = ({ product, onSubmit, onCancel, loading = false }: GiftP
             </Grid>
 
             {/* Action Buttons */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Box display='flex' gap={2} justifyContent='flex-end'>
                 {onCancel && (
                   <Button

@@ -16,7 +16,7 @@ const CardStatsSquare = (props: CardStatsSquareProps) => {
   return (
     <Card>
       <CardContent className='flex flex-col items-center gap-2'>
-        <CustomAvatar color={avatarColor} skin={avatarSkin} variant={avatarVariant} size={avatarSize}>
+        <CustomAvatar color={avatarColor} skin={avatarSkin} variant={avatarVariant} size={avatarSize ?? 38}>
           <i className={avatarIcon} />
         </CustomAvatar>
         <div className='flex flex-col items-center gap-1'>

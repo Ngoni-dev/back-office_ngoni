@@ -98,7 +98,7 @@ const GenreForm = ({ genre, onSubmit, onCancel, loading = false }: GenreFormProp
     <form onSubmit={handleSubmit}>
       <Grid container spacing={3}>
         {/* Name Field */}
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <CustomTextField
             fullWidth
             required
@@ -113,7 +113,7 @@ const GenreForm = ({ genre, onSubmit, onCancel, loading = false }: GenreFormProp
         </Grid>
 
         {/* Description Field */}
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <CustomTextField
             fullWidth
             multiline
@@ -129,7 +129,7 @@ const GenreForm = ({ genre, onSubmit, onCancel, loading = false }: GenreFormProp
         </Grid>
 
         {/* Action Buttons */}
-        <Grid item xs={12}>
+        <Grid size={{ xs: 12 }}>
           <Box display='flex' gap={2} justifyContent='flex-end'>
             {onCancel && (
               <Button

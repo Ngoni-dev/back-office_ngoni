@@ -90,7 +90,7 @@ const LicenseList = ({ onManageRestrictions }: LicenseListProps) => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {licenses.map((license) => (
+                {licenses.map((license: MusicLicense) => (
                   <TableRow key={license.id}>
                     <TableCell>
                       <Typography variant='body2' fontWeight={500}>

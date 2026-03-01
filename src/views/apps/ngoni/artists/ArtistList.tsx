@@ -64,7 +64,7 @@ export default function ArtistList() {
       } else {
         const response = await artistService.list(page + 1, perPage)
         setArtists(response.data ?? [])
-        const meta = response.pagination ?? (response as { meta?: { total: number } }).meta
+        const meta = response.meta
         setTotal(meta?.total ?? response.data?.length ?? 0)
       }
     } catch {

@@ -118,7 +118,7 @@ const MusicForm = ({ music, onSubmit, onCancel, loading }: MusicFormProps) => {
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <Grid container spacing={4}>
             {/* Title */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Controller
                 name='title'
                 control={control}
@@ -137,21 +137,21 @@ const MusicForm = ({ music, onSubmit, onCancel, loading }: MusicFormProps) => {
 
             {/* Audio File Upload - Only for create mode */}
             {!isEditMode && (
-              <Grid item xs={12}>
+              <Grid size={{ xs: 12 }}>
                 <FileUpload
                   label='Fichier audio'
-                  accept='audio/*'
+                  accept={{ 'audio/*': ['.mp3', '.wav', '.flac', '.m4a'] }}
                   maxSize={50 * 1024 * 1024} // 50MB
                   onFileSelect={handleFileSelect}
                   helperText='Formats acceptés: MP3, WAV, FLAC (max 50MB)'
-                  error={!!errors.audio_file}
-                  errorMessage={errors.audio_file?.message as string}
+                  error={!!(errors as Record<string, { message?: string }>).audio_file}
+                  errorMessage={(errors as Record<string, { message?: string }>).audio_file?.message}
                 />
               </Grid>
             )}
 
             {/* Language */}
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <Controller
                 name='language'
                 control={control}
@@ -169,7 +169,7 @@ const MusicForm = ({ music, onSubmit, onCancel, loading }: MusicFormProps) => {
             </Grid>
 
             {/* Country ID */}
-            <Grid item xs={12} sm={6}>
+            <Grid size={{ xs: 12, sm: 6 }}>
               <Controller
                 name='country_id'
                 control={control}
@@ -179,7 +179,7 @@ const MusicForm = ({ music, onSubmit, onCancel, loading }: MusicFormProps) => {
                     fullWidth
                     type='number'
                     label='ID du pays'
-                    placeholder='Entrez l\'ID du pays'
+                    placeholder="Entrez l'ID du pays"
                     error={!!errors.country_id}
                     helperText={errors.country_id?.message}
                     onChange={(e) => field.onChange(e.target.value ? parseInt(e.target.value) : undefined)}
@@ -189,7 +189,7 @@ const MusicForm = ({ music, onSubmit, onCancel, loading }: MusicFormProps) => {
             </Grid>
 
             {/* Is Original */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Controller
                 name='is_original'
                 control={control}
@@ -211,7 +211,7 @@ const MusicForm = ({ music, onSubmit, onCancel, loading }: MusicFormProps) => {
             </Grid>
 
             {/* Artist IDs - Placeholder for future multi-select */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Typography variant='body2' color='text.secondary' sx={{ mb: 1 }}>
                 Artistes (à implémenter avec sélection multiple)
               </Typography>
@@ -221,7 +221,7 @@ const MusicForm = ({ music, onSubmit, onCancel, loading }: MusicFormProps) => {
             </Grid>
 
             {/* Genre IDs - Placeholder for future multi-select */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Typography variant='body2' color='text.secondary' sx={{ mb: 1 }}>
                 Genres (à implémenter avec sélection multiple)
               </Typography>
@@ -231,7 +231,7 @@ const MusicForm = ({ music, onSubmit, onCancel, loading }: MusicFormProps) => {
             </Grid>
 
             {/* Action Buttons */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Box display='flex' gap={2} justifyContent='flex-end'>
                 {onCancel && (
                   <Button

@@ -36,7 +36,7 @@ const PlanDetails = ({ data, pricingPlan }: Props) => {
           src={data?.imgSrc}
           height={data?.imgHeight}
           width={data?.imgWidth}
-          alt={`${data?.title.toLowerCase().replace(' ', '-')}-img`}
+          alt={`${(data?.title ?? '').toLowerCase().replace(' ', '-')}-img`}
         />
       </div>
       <div className='text-center flex flex-col gap-1'>
@@ -49,7 +49,7 @@ const PlanDetails = ({ data, pricingPlan }: Props) => {
             $
           </Typography>
           <Typography variant='h1' component='span' color='primary.main'>
-            {pricingPlan === 'monthly' ? data?.monthlyPrice : data?.yearlyPlan.monthly}
+            {pricingPlan === 'monthly' ? data?.monthlyPrice : data?.yearlyPlan?.monthly}
           </Typography>
           <Typography component='sub' className='self-end font-medium'>
             /month
@@ -59,11 +59,11 @@ const PlanDetails = ({ data, pricingPlan }: Props) => {
           <Typography
             variant='caption'
             className='absolute inline-end-1/2 translate-x-[50%]'
-          >{`USD ${data?.yearlyPlan.annually}/year`}</Typography>
+          >{`USD ${data?.yearlyPlan?.annually ?? 0}/year`}</Typography>
         ) : null}
       </div>
       <div className='flex flex-col gap-4'>
-        {data?.planBenefits.map((item: string, index: number) => (
+        {data?.planBenefits?.map((item: string, index: number) => (
           <div key={index} className='flex items-center gap-2'>
             <span className='inline-flex'>
               <i className='tabler-circle-filled text-[8px]' />

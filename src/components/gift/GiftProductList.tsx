@@ -59,7 +59,7 @@ const GiftProductList = ({ onEdit, onDelete, onToggleActive, onView, onCreate }:
     // Apply search filter
     if (searchQuery.trim() !== '') {
       const query = searchQuery.toLowerCase()
-      filtered = filtered.filter(product => 
+      filtered = filtered.filter((product: GiftProduct) => 
         product.name.toLowerCase().includes(query) ||
         product.description?.toLowerCase().includes(query)
       )
@@ -67,7 +67,7 @@ const GiftProductList = ({ onEdit, onDelete, onToggleActive, onView, onCreate }:
 
     // Apply status filter
     if (statusFilter !== 'all') {
-      filtered = filtered.filter(product => 
+      filtered = filtered.filter((product: GiftProduct) => 
         statusFilter === 'active' ? product.is_active : !product.is_active
       )
     }
@@ -122,7 +122,7 @@ const GiftProductList = ({ onEdit, onDelete, onToggleActive, onView, onCreate }:
         />
         <CardContent>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={7}>
+            <Grid size={{ xs: 12, sm: 6, md: 7 }}>
               <CustomTextField
                 fullWidth
                 label='Rechercher'
@@ -132,7 +132,7 @@ const GiftProductList = ({ onEdit, onDelete, onToggleActive, onView, onCreate }:
               />
             </Grid>
 
-            <Grid item xs={12} sm={3} md={2}>
+            <Grid size={{ xs: 12, sm: 3, md: 2 }}>
               <FormControl fullWidth>
                 <InputLabel>Statut</InputLabel>
                 <Select
@@ -147,7 +147,7 @@ const GiftProductList = ({ onEdit, onDelete, onToggleActive, onView, onCreate }:
               </FormControl>
             </Grid>
 
-            <Grid item xs={12} sm={3} md={3}>
+            <Grid size={{ xs: 12, sm: 3, md: 3 }}>
               <Box display='flex' gap={2} height='100%' alignItems='center'>
                 <Button
                   variant='tonal'
@@ -204,7 +204,7 @@ const GiftProductList = ({ onEdit, onDelete, onToggleActive, onView, onCreate }:
         <>
           <Grid container spacing={3}>
             {filteredProducts.map((product) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
+              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={product.id}>
                 <GiftProductCard
                   product={product}
                   onEdit={onEdit}
@@ -220,12 +220,11 @@ const GiftProductList = ({ onEdit, onDelete, onToggleActive, onView, onCreate }:
           {pagination && !searchQuery && statusFilter === 'all' && (
             <Box mt={4}>
               <Pagination
-                currentPage={pagination.current_page}
-                totalPages={pagination.last_page}
-                totalItems={pagination.total}
-                itemsPerPage={pagination.per_page}
+                page={pagination.current_page}
+                perPage={pagination.per_page}
+                meta={pagination}
                 onPageChange={handlePageChange}
-                onItemsPerPageChange={handlePerPageChange}
+                onPerPageChange={handlePerPageChange}
               />
             </Box>
           )}

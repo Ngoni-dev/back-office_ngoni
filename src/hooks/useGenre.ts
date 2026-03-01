@@ -20,7 +20,7 @@ import {
 } from '@/redux-store/slices/genreSlice'
 
 // Type Imports
-import type { RootState } from '@/redux-store/store'
+import type { RootState } from '@/redux-store'
 import type {
     AttachGenreRequest,
     GenreCreateRequest,

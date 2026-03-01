@@ -74,71 +74,23 @@ const pageData = [
 
 const authData = [
   {
-    title: 'Login (Basic)',
-    href: '/login-v1'
+    title: 'Login',
+    href: '/login'
   },
   {
-    title: 'Login (Cover)',
-    href: '/login-v2'
+    title: 'Register',
+    href: '/register'
   },
   {
-    title: 'Register (Basic)',
-    href: '/register-v1'
-  },
-  {
-    title: 'Register (Cover)',
-    href: '/register-v2'
-  },
-  {
-    title: 'Register (Multi-steps)',
-    href: '/register-multi-steps'
-  },
-  {
-    title: 'Forgot Password (Basic)',
-    href: '/forgot-password-v1'
-  },
-  {
-    title: 'Forgot Password (Cover)',
-    href: '/forgot-password-v2'
-  },
-  {
-    title: 'Reset Password (Basic)',
-    href: '/reset-password-v1'
-  },
-  {
-    title: 'Reset Password (Cover)',
-    href: '/reset-password-v2'
+    title: 'Forgot Password',
+    href: '/forgot-password'
   }
 ]
 
 const othersData = [
   {
-    title: 'Under Maintenance',
-    href: '/misc/under-maintenance'
-  },
-  {
-    title: 'Coming Soon',
-    href: '/misc/coming-soon'
-  },
-  {
     title: 'Not Authorized',
     href: '/misc/401-not-authorized'
-  },
-  {
-    title: 'Verify Email (Basic)',
-    href: '/auth/verify-email-v1'
-  },
-  {
-    title: 'Verify Email (Cover)',
-    href: '/auth/verify-email-v2'
-  },
-  {
-    title: 'Two Steps (Basic)',
-    href: '/auth/two-steps-v1'
-  },
-  {
-    title: 'Two Steps (Cover)',
-    href: '/auth/two-steps-v2'
   }
 ]
 
@@ -335,7 +287,7 @@ const DropdownMenu = (props: Props) => {
           {authData.map((page, index) => (
             <Link
               key={index}
-              href={'/pages/auth' + page.href}
+              href={page.href}
               target='_blank'
               className='flex items-center gap-3 focus:outline-hidden hover:text-primary'
               onClick={handleLinkClick}

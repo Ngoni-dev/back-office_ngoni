@@ -135,7 +135,7 @@ const MusicList = ({ onEdit, onDelete, onStatusChange, onView, onCreate }: Music
         />
         <CardContent>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <CustomTextField
                 fullWidth
                 label='Titre'
@@ -145,7 +145,7 @@ const MusicList = ({ onEdit, onDelete, onStatusChange, onView, onCreate }: Music
               />
             </Grid>
 
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <CustomTextField
                 fullWidth
                 label='Artiste'
@@ -155,7 +155,7 @@ const MusicList = ({ onEdit, onDelete, onStatusChange, onView, onCreate }: Music
               />
             </Grid>
 
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <CustomTextField
                 fullWidth
                 label='Genre'
@@ -165,7 +165,7 @@ const MusicList = ({ onEdit, onDelete, onStatusChange, onView, onCreate }: Music
               />
             </Grid>
 
-            <Grid item xs={12} sm={6} md={3}>
+            <Grid size={{ xs: 12, sm: 6, md: 3 }}>
               <FormControl fullWidth>
                 <InputLabel>Statut</InputLabel>
                 <Select
@@ -185,7 +185,7 @@ const MusicList = ({ onEdit, onDelete, onStatusChange, onView, onCreate }: Music
               </FormControl>
             </Grid>
 
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Box display='flex' gap={2}>
                 <Button
                   variant='contained'
@@ -245,8 +245,8 @@ const MusicList = ({ onEdit, onDelete, onStatusChange, onView, onCreate }: Music
       {!loading && musics.length > 0 && (
         <>
           <Grid container spacing={3}>
-            {musics.map((music) => (
-              <Grid item xs={12} sm={6} md={4} key={music.id}>
+            {musics.map((music: Music) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={music.id}>
                 <MusicCard
                   music={music}
                   onEdit={onEdit}
@@ -262,12 +262,11 @@ const MusicList = ({ onEdit, onDelete, onStatusChange, onView, onCreate }: Music
           {pagination && (
             <Box mt={4}>
               <Pagination
-                currentPage={pagination.current_page}
-                totalPages={pagination.last_page}
-                totalItems={pagination.total}
-                itemsPerPage={pagination.per_page}
+                page={pagination.current_page}
+                perPage={pagination.per_page}
+                meta={pagination}
                 onPageChange={handlePageChange}
-                onItemsPerPageChange={handlePerPageChange}
+                onPerPageChange={handlePerPageChange}
               />
             </Box>
           )}

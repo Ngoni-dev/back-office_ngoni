@@ -59,7 +59,7 @@ const GenreList = () => {
       setFilteredGenres(genres)
     } else {
       const query = searchQuery.toLowerCase()
-      const filtered = genres.filter(genre => 
+      const filtered = genres.filter((genre: Genre) => 
         genre.name.toLowerCase().includes(query) ||
         genre.description?.toLowerCase().includes(query)
       )

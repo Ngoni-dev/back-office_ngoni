@@ -17,7 +17,7 @@ import {
 } from '@/redux-store/slices/licenseSlice'
 
 // Type Imports
-import type { RootState } from '@/redux-store/store'
+import type { RootState } from '@/redux-store'
 
 export function useLicense() {
   const dispatch = useDispatch()

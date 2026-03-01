@@ -61,7 +61,7 @@ const LicenseForm = ({ license, onSubmit, onCancel, loading }: LicenseFormProps)
         <form onSubmit={handleSubmit}>
           <Grid container spacing={4}>
             {/* Info Message */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Box
                 sx={{
                   p: 2,
@@ -80,22 +80,22 @@ const LicenseForm = ({ license, onSubmit, onCancel, loading }: LicenseFormProps)
             </Grid>
 
             {/* Music ID */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <CustomTextField
                 fullWidth
                 type='number'
                 label='ID de la musique'
-                placeholder='Entrez l\'ID de la musique'
+                placeholder="Entrez l'ID de la musique"
                 value={musicId}
                 onChange={(e) => setMusicId(e.target.value)}
                 error={!!error}
-                helperText={error || 'L\'ID de la musique pour laquelle créer une licence'}
+                helperText={error || "L'ID de la musique pour laquelle créer une licence"}
                 required
               />
             </Grid>
 
             {/* Action Buttons */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Box display='flex' gap={2} justifyContent='flex-end'>
                 {onCancel && (
                   <Button

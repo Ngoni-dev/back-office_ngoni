@@ -20,7 +20,7 @@ import {
 } from '@/redux-store/slices/musicSlice'
 
 // Type Imports
-import type { RootState } from '@/redux-store/store'
+import type { RootState } from '@/redux-store'
 import type {
     MusicCreateRequest,
     MusicSearchParams,

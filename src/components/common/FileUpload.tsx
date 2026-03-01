@@ -46,6 +46,8 @@ interface FileUploadProps {
   disabled?: boolean
   showProgress?: boolean
   currentFile?: File | null
+  error?: boolean
+  errorMessage?: string
 }
 
 const FileUpload = ({
@@ -56,9 +58,13 @@ const FileUpload = ({
   helperText,
   disabled = false,
   showProgress = false,
-  currentFile = null
+  currentFile = null,
+  error: errorProp = false,
+  errorMessage: errorMessageProp
 }: FileUploadProps) => {
-  const { progress, uploading, error, validateFile, reset, setError } = useFileUpload()
+  const { progress, uploading, error: internalError, validateFile, reset, setError } = useFileUpload()
+  const error = errorProp || !!internalError
+  const errorMessage = errorMessageProp || internalError
 
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
@@ -159,7 +165,7 @@ const FileUpload = ({
         <Box sx={{ mt: 2 }}>
           <Typography variant='body2' color='error.main'>
             <i className='tabler-alert-circle' style={{ marginRight: '0.5rem' }} />
-            {error}
+            {typeof errorMessage === 'string' ? errorMessage : 'Erreur de validation'}
           </Typography>
         </Box>
       )}

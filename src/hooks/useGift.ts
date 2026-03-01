@@ -21,7 +21,7 @@ import {
 } from '@/redux-store/slices/giftSlice'
 
 // Type Imports
-import type { RootState } from '@/redux-store/store'
+import type { RootState } from '@/redux-store'
 import type { GiftProductCreateRequest, GiftProductUpdateRequest } from '@/types/gift.types'
 
 export function useGift() {

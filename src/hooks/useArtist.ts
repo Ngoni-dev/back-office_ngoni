@@ -20,7 +20,7 @@ import {
 } from '@/redux-store/slices/artistSlice'
 
 // Type Imports
-import type { RootState } from '@/redux-store/store'
+import type { RootState } from '@/redux-store'
 import type {
     ArtistCreateRequest,
     ArtistUpdateRequest,

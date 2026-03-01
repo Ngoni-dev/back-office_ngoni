@@ -53,7 +53,7 @@ const ArtistList = ({ onEdit, onDelete, onVerify, onView, onCreate }: ArtistList
       setFilteredArtists(artists)
     } else {
       const query = searchQuery.toLowerCase()
-      const filtered = artists.filter(artist => 
+      const filtered = artists.filter((artist: Artist) => 
         artist.name.toLowerCase().includes(query) ||
         artist.bio?.toLowerCase().includes(query)
       )
@@ -96,7 +96,7 @@ const ArtistList = ({ onEdit, onDelete, onVerify, onView, onCreate }: ArtistList
         />
         <CardContent>
           <Grid container spacing={3}>
-            <Grid item xs={12} sm={8} md={9}>
+            <Grid size={{ xs: 12, sm: 8, md: 9 }}>
               <CustomTextField
                 fullWidth
                 label='Rechercher'
@@ -106,7 +106,7 @@ const ArtistList = ({ onEdit, onDelete, onVerify, onView, onCreate }: ArtistList
               />
             </Grid>
 
-            <Grid item xs={12} sm={4} md={3}>
+            <Grid size={{ xs: 12, sm: 4, md: 3 }}>
               <Box display='flex' gap={2} height='100%' alignItems='center'>
                 <Button
                   variant='tonal'
@@ -163,7 +163,7 @@ const ArtistList = ({ onEdit, onDelete, onVerify, onView, onCreate }: ArtistList
         <>
           <Grid container spacing={3}>
             {filteredArtists.map((artist) => (
-              <Grid item xs={12} sm={6} md={4} lg={3} key={artist.id}>
+              <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={artist.id}>
                 <ArtistCard
                   artist={artist}
                   onEdit={onEdit}
@@ -179,12 +179,11 @@ const ArtistList = ({ onEdit, onDelete, onVerify, onView, onCreate }: ArtistList
           {pagination && !searchQuery && (
             <Box mt={4}>
               <Pagination
-                currentPage={pagination.current_page}
-                totalPages={pagination.last_page}
-                totalItems={pagination.total}
-                itemsPerPage={pagination.per_page}
+                page={pagination.current_page}
+                perPage={pagination.per_page}
+                meta={pagination}
                 onPageChange={handlePageChange}
-                onItemsPerPageChange={handlePerPageChange}
+                onPerPageChange={handlePerPageChange}
               />
             </Box>
           )}

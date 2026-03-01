@@ -140,7 +140,7 @@ const ArtistForm = ({ artist, onSubmit, onCancel, loading = false }: ArtistFormP
         <CardContent>
           <Grid container spacing={4}>
             {/* Image Upload Section */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Box display='flex' flexDirection='column' alignItems='center' gap={2}>
                 <Avatar
                   src={imagePreview || undefined}
@@ -162,7 +162,7 @@ const ArtistForm = ({ artist, onSubmit, onCancel, loading = false }: ArtistFormP
                 )}
 
                 <FileUpload
-                  accept='image/*'
+                  accept={{ 'image/*': ['.png', '.jpg', '.jpeg'] }}
                   maxSize={5 * 1024 * 1024} // 5MB
                   onFileSelect={handleImageSelect}
                   label='Image de profil'
@@ -178,12 +178,12 @@ const ArtistForm = ({ artist, onSubmit, onCancel, loading = false }: ArtistFormP
             </Grid>
 
             {/* Name Field */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <CustomTextField
                 fullWidth
                 required
-                label='Nom de l\'artiste'
-                placeholder='Entrez le nom de l\'artiste'
+                label="Nom de l'artiste"
+                placeholder="Entrez le nom de l'artiste"
                 value={formData.name}
                 onChange={(e) => handleInputChange('name', e.target.value)}
                 error={!!errors.name}
@@ -193,13 +193,13 @@ const ArtistForm = ({ artist, onSubmit, onCancel, loading = false }: ArtistFormP
             </Grid>
 
             {/* Bio Field */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <CustomTextField
                 fullWidth
                 multiline
                 rows={4}
                 label='Biographie'
-                placeholder='Entrez la biographie de l\'artiste (optionnel)'
+                placeholder="Entrez la biographie de l'artiste (optionnel)"
                 value={formData.bio}
                 onChange={(e) => handleInputChange('bio', e.target.value)}
                 error={!!errors.bio}
@@ -209,7 +209,7 @@ const ArtistForm = ({ artist, onSubmit, onCancel, loading = false }: ArtistFormP
             </Grid>
 
             {/* Action Buttons */}
-            <Grid item xs={12}>
+            <Grid size={{ xs: 12 }}>
               <Box display='flex' gap={2} justifyContent='flex-end'>
                 {onCancel && (
                   <Button
