@@ -37,8 +37,25 @@ export const AuthProvider = ({ children }: Props) => {
         } else {
           clearAuthToken()
         }
-      } catch {
-        clearAuthToken()
+      } catch (err: unknown) {
+        // En prod, ne supprimer le token que sur 401 (session invalide).
+        // Sinon (réseau, CORS, 500) on garde le token pour éviter la boucle
+        // login → redirect → getProfile échoue → token effacé → redirect login.
+        const status = (err as { response?: { status?: number } })?.response?.status
+        if (status === 401) {
+          clearAuthToken()
+        } else {
+          // Token conservé : on met un profil minimal pour passer le guard.
+          dispatch(setToken(token))
+          dispatch(
+            setUser({
+              id: 0,
+              name: '',
+              email: '',
+              role: 'PERSONAL'
+            })
+          )
+        }
       } finally {
         dispatch(setInitialCheckDone(true))
       }
