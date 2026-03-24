@@ -12,7 +12,9 @@ import type { getDictionary } from '@/utils/getDictionary'
 import type { VerticalMenuContextProps } from '@menu/components/vertical-menu/Menu'
 
 // Component Imports
-import { Menu, MenuItem, MenuSection, SubMenu } from '@menu/vertical-menu'
+import { Menu } from '@menu/vertical-menu'
+import { GenerateVerticalMenu } from '@components/GenerateMenu'
+import verticalMenuData from '@/data/navigation/verticalMenuData'
 
 // Hook Imports
 import useVerticalNav from '@menu/hooks/useVerticalNav'
@@ -48,7 +50,6 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
 
   // Vars
   const { isBreakpointReached, transitionDuration } = verticalNavOptions
-  const { lang: locale } = params
 
   const ScrollWrapper = isBreakpointReached ? 'div' : PerfectScrollbar
 
@@ -71,32 +72,7 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
         renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
-        <MenuItem href={`/${locale}`} icon={<i className='tabler-smart-home' />}>
-          {dictionary['navigation']?.dashboard ?? 'Dashboard'}
-        </MenuItem>
-        
-        <MenuSection label={dictionary['navigation']?.appsPages ?? 'Apps & Pages'}>
-          <SubMenu
-            label={dictionary['navigation']?.ngoni ?? 'Ngoni'}
-            icon={<i className='tabler-music' />}
-          >
-            <MenuItem href={`/${locale}/apps/ngoni/music`}>
-              {dictionary['navigation']?.music ?? 'Musiques'}
-            </MenuItem>
-            <MenuItem href={`/${locale}/apps/ngoni/artists`}>
-              {dictionary['navigation']?.artists ?? 'Artistes'}
-            </MenuItem>
-            <MenuItem href={`/${locale}/apps/ngoni/genres`}>
-              {dictionary['navigation']?.genres ?? 'Genres'}
-            </MenuItem>
-            <MenuItem href={`/${locale}/apps/ngoni/licenses`}>
-              {dictionary['navigation']?.licenses ?? 'Licences'}
-            </MenuItem>
-            <MenuItem href={`/${locale}/apps/ngoni/gift-products`}>
-              {dictionary['navigation']?.giftProducts ?? 'Produits Cadeaux'}
-            </MenuItem>
-          </SubMenu>
-        </MenuSection>
+        <GenerateVerticalMenu menuData={verticalMenuData(dictionary)} />
       </Menu>
     </ScrollWrapper>
   )

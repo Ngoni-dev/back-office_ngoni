@@ -33,6 +33,16 @@ const horizontalMenuData = (dictionary: Awaited<ReturnType<typeof getDictionary>
         href: '/apps/ngoni/gift-products'
       }
     ]
+  },
+  {
+    label: dictionary['navigation']?.administration ?? 'Administration',
+    icon: 'tabler-shield',
+    children: [
+      { label: dictionary['navigation']?.administrateurs ?? 'Administrateurs', href: '/apps/admin/administrateurs' },
+      { label: dictionary['navigation']?.roles ?? 'Rôles', href: '/apps/admin/roles' },
+      { label: dictionary['navigation']?.users ?? 'Utilisateurs', href: '/apps/users' },
+      { label: dictionary['navigation']?.countries ?? 'Pays', href: '/apps/countries' }
+    ]
   }
 ]
 
