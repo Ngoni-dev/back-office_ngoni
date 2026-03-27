@@ -89,6 +89,11 @@ export default function GenreList() {
     setPage(0)
   }
 
+  const resetFilters = () => {
+    setSearchName('')
+    setPage(0)
+  }
+
   const handleDelete = async (id: number) => {
     try {
       await genreService.delete(id)
@@ -131,6 +136,15 @@ export default function GenreList() {
                   onChange={e => setSearchName(e.target.value)}
                   sx={{ minWidth: 260 }}
                 />
+                <Button
+                  variant='outlined'
+                  color='secondary'
+                  size='small'
+                  onClick={resetFilters}
+                  sx={{ minHeight: 40, textTransform: 'none' }}
+                >
+                  Réinitialiser
+                </Button>
               </div>
             </div>
             {loading ? (

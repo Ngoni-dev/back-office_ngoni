@@ -30,7 +30,12 @@ import '@assets/iconify-icons/generated-icons.css'
 
 export const metadata = {
   title: 'Ngoni Admin',
-  description: 'Ngoni Admin - Back-office de gestion du catalogue et des licences Ngoni.'
+  description: 'Ngoni Admin - Back-office de gestion du catalogue et des licences Ngoni.',
+  icons: {
+    icon: '/images/ngoni_logo.png',
+    shortcut: '/images/ngoni_logo.png',
+    apple: '/images/ngoni_logo.png'
+  }
 }
 
 const RootLayout = async (props: ChildrenType & { params: Promise<{ lang: string }> }) => {

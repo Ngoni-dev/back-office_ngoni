@@ -5,6 +5,7 @@ import { useMusic } from '../useMusic'
 import { musicService } from '@/services/music.service'
 import musicReducer from '@/redux-store/slices/musicSlice'
 import type { Music, MusicStatus } from '@/types/music.types'
+import React from 'react'
 
 // Mock the music service
 jest.mock('@/services/music.service')
@@ -19,9 +20,8 @@ const createWrapper = () => {
     },
   })
 
-  return ({ children }: { children: React.ReactNode }) => (
-    <Provider store={store}>{children}</Provider>
-  )
+  return ({ children }: { children: React.ReactNode }) =>
+    React.createElement(Provider, { store }, children)
 }
 
 // Mock music data

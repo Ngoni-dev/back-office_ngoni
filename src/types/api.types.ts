@@ -37,6 +37,8 @@ export interface AdminProfile {
   first_names?: string
   email: string
   role: string
+  acl_roles?: string[]
+  permissions?: string[]
   photo?: string | null
   first_contact?: string
   contact_second?: string

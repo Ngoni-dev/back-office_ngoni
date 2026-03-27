@@ -17,6 +17,8 @@ import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
 import Switch from '@mui/material/Switch'
+import Typography from '@mui/material/Typography'
+import Alert from '@mui/material/Alert'
 
 // Services
 import { adminService } from '@/services/admin.service'
@@ -32,11 +34,16 @@ import { getLocalizedUrl } from '@/utils/i18n'
 import NgoniBreadcrumbs from '@/components/NgoniBreadcrumbs'
 import CustomTextField from '@core/components/mui/TextField'
 import { toast } from 'react-toastify'
+import { useSelector } from 'react-redux'
+import type { RootState } from '@/redux-store'
+import { hasPermission } from '@/utils/acl'
 
 export default function AdminForm() {
   const router = useRouter()
   const { lang, id } = useParams()
   const isEdit = Boolean(id)
+  const authUser = useSelector((state: RootState) => state.auth.user)
+  const canWriteAdmins = hasPermission(authUser, 'admins.write')
 
   const [name, setName] = useState('')
   const [firstNames, setFirstNames] = useState('')
@@ -50,7 +57,9 @@ export default function AdminForm() {
   const [bio, setBio] = useState('')
   const [adresse, setAdresse] = useState('')
   const [city, setCity] = useState('')
+  const [language, setLanguage] = useState('fr')
   const [status, setStatus] = useState(true)
+  const [isArchived, setIsArchived] = useState(false)
   const [countries, setCountries] = useState<Country[]>([])
   const [roles, setRoles] = useState<Role[]>([])
   const [loading, setLoading] = useState(false)
@@ -59,7 +68,7 @@ export default function AdminForm() {
   useEffect(() => {
     Promise.all([
       countryService.list().then(res => setCountries(res.data ?? [])).catch(() => setCountries([])),
-      roleService.list().then(res => setRoles(res.data ?? [])).catch(() => setRoles([]))
+      roleService.list(1, 50, {}).then(res => setRoles(res.data ?? [])).catch(() => setRoles([]))
     ])
   }, [])
 
@@ -79,7 +88,9 @@ export default function AdminForm() {
           setBio(a.bio ?? '')
           setAdresse(a.adresse ?? '')
           setCity(a.city ?? '')
+          setLanguage(a.language ?? 'fr')
           setStatus(a.status ?? true)
+          setIsArchived(Boolean(a.deleted_at))
         })
         .catch(() => toast.error('Erreur chargement'))
         .finally(() => setLoading(false))
@@ -115,6 +126,7 @@ export default function AdminForm() {
           bio: bio.trim() || undefined,
           adresse: adresse.trim() || undefined,
           city: city.trim() || undefined,
+          language: language || undefined,
           status,
           ...(password ? { password, password_confirmation: passwordConfirmation } : {})
         })
@@ -132,7 +144,8 @@ export default function AdminForm() {
           country_id: Number(countryId),
           bio: bio.trim() || undefined,
           adresse: adresse.trim() || undefined,
-          city: city.trim() || undefined
+          city: city.trim() || undefined,
+          language: language || undefined
         })
         toast.success('Administrateur créé')
       }
@@ -159,9 +172,20 @@ export default function AdminForm() {
         ]}
       />
       <Card>
-        <CardHeader title={isEdit ? 'Modifier' : 'Nouvel administrateur'} />
+        <CardHeader
+          title={isEdit ? 'Modifier l’administrateur' : 'Nouvel administrateur'}
+          subheader={isEdit ? 'Mettre à jour le profil et les accès' : 'Créer un compte back-office'}
+        />
         <CardContent>
+          {!canWriteAdmins ? (
+            <Box className='p-2'>Vous n’avez pas la permission de modifier les administrateurs.</Box>
+          ) : isArchived ? (
+            <Alert severity='warning'>
+              Ce compte est archivé. Restaurez-le depuis la liste avant modification.
+            </Alert>
+          ) : (
           <form onSubmit={handleSubmit}>
+            <Typography variant='subtitle2' color='text.secondary' sx={{ mb: 2 }}>Identité</Typography>
             <Grid container spacing={4}>
               <Grid size={{ xs: 12, md: 6 }}>
                 <CustomTextField fullWidth label='Nom' value={name} onChange={e => setName(e.target.value)} required />
@@ -223,6 +247,15 @@ export default function AdminForm() {
                 </FormControl>
               </Grid>
               <Grid size={{ xs: 12, md: 6 }}>
+                <FormControl fullWidth>
+                  <InputLabel>Langue</InputLabel>
+                  <Select value={language} label='Langue' onChange={e => setLanguage(e.target.value)}>
+                    <MenuItem value='fr'>Français</MenuItem>
+                    <MenuItem value='en'>English</MenuItem>
+                  </Select>
+                </FormControl>
+              </Grid>
+              <Grid size={{ xs: 12, md: 6 }}>
                 <CustomTextField fullWidth label='Ville' value={city} onChange={e => setCity(e.target.value)} />
               </Grid>
               <Grid size={{ xs: 12 }}>
@@ -231,9 +264,12 @@ export default function AdminForm() {
               <Grid size={{ xs: 12 }}>
                 <CustomTextField fullWidth multiline rows={3} label='Bio' value={bio} onChange={e => setBio(e.target.value)} />
               </Grid>
+              <Grid size={{ xs: 12 }}>
+                <Typography variant='subtitle2' color='text.secondary' sx={{ mb: 2 }}>Compte</Typography>
+              </Grid>
               {isEdit && (
                 <Grid size={{ xs: 12 }}>
-                  <FormControlLabel control={<Switch checked={status} onChange={e => setStatus(e.target.checked)} />} label='Actif' />
+                  <FormControlLabel control={<Switch checked={status} onChange={e => setStatus(e.target.checked)} />} label='Compte actif' />
                 </Grid>
               )}
               <Grid size={{ xs: 12 }}>
@@ -244,6 +280,7 @@ export default function AdminForm() {
               </Grid>
             </Grid>
           </form>
+          )}
         </CardContent>
       </Card>
     </Box>

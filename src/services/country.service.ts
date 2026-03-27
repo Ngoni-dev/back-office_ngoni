@@ -1,5 +1,5 @@
 /**
- * Country service - ngoni_admin_api_dev (BO-027)
+ * Country service - ngoni_admin_api_dev
  */
 
 import { apiClient } from './api/client'

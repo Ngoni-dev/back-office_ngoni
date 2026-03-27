@@ -3,6 +3,7 @@
  */
 
 import { apiClient } from './api/client'
+import type { AxiosRequestConfig } from 'axios'
 import type {
   DashboardStats,
   DashboardTrends,
@@ -16,21 +17,31 @@ interface ApiResponse<T> {
 }
 
 export class DashboardService {
-  async getStats(): Promise<DashboardStats> {
-    const res = await apiClient.get<ApiResponse<DashboardStats>>('/admin/dashboard/stats')
+  private cfg(silent = false): AxiosRequestConfig | undefined {
+    return silent ? ({ suppressErrorToast: true } as AxiosRequestConfig) : undefined
+  }
+
+  async getStats(silent = false): Promise<DashboardStats> {
+    const res = await apiClient.get<ApiResponse<DashboardStats>>('/admin/dashboard/stats', this.cfg(silent))
     return (res as ApiResponse<DashboardStats>).data
   }
 
-  async getTrends(period: DashboardPeriod = '7d'): Promise<DashboardTrends> {
+  async getTrends(period: DashboardPeriod = '7d', silent = false): Promise<DashboardTrends> {
     const res = await apiClient.get<ApiResponse<DashboardTrends>>(
-      `/admin/dashboard/trends?period=${period}`
+      `/admin/dashboard/trends?period=${period}`,
+      this.cfg(silent)
     )
     return (res as ApiResponse<DashboardTrends>).data
   }
 
-  async getAlerts(): Promise<DashboardAlerts> {
-    const res = await apiClient.get<ApiResponse<DashboardAlerts>>('/admin/dashboard/alerts')
+  async getAlerts(silent = false): Promise<DashboardAlerts> {
+    const res = await apiClient.get<ApiResponse<DashboardAlerts>>('/admin/dashboard/alerts', this.cfg(silent))
     return (res as ApiResponse<DashboardAlerts>).data
+  }
+
+  async getRecentTransactions(limit = 5, silent = false) {
+    const res = await apiClient.get<ApiResponse<any[]>>(`/admin/dashboard/recent-transactions?limit=${limit}`, this.cfg(silent))
+    return (res as ApiResponse<any[]>).data
   }
 }
 

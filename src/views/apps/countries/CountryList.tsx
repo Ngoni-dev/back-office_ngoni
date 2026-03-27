@@ -23,6 +23,7 @@ import OptionMenu from '@core/components/option-menu'
 import CustomTextField from '@core/components/mui/TextField'
 import { useDebounceValue } from '@/hooks/useDebounceValue'
 import { toast } from 'react-toastify'
+import { flagCdnUrl } from '@/utils/countryFlagEmoji'
 
 export default function CountryList() {
   const router = useRouter()
@@ -77,6 +78,11 @@ export default function CountryList() {
     }
   }
 
+  const resetFilters = () => {
+    setSearch('')
+    setPage(0)
+  }
+
   return (
     <Box sx={{ width: '100%', minWidth: 0 }}>
       <NgoniBreadcrumbs items={[{ label: 'Pays' }]} />
@@ -85,7 +91,7 @@ export default function CountryList() {
           <Card>
             <CardHeader
               title='Pays'
-              subheader='Gestion des pays (BO-027)'
+              subheader='Gestion des pays'
               action={
                 <Button
                   variant='contained'
@@ -96,7 +102,7 @@ export default function CountryList() {
                 </Button>
               }
             />
-            <Box sx={{ px: 4, pb: 2 }}>
+            <Box sx={{ px: 4, pb: 2, display: 'flex', flexWrap: 'wrap', gap: 2, alignItems: 'center' }}>
               <CustomTextField
                 placeholder='Rechercher par nom ou code...'
                 value={search}
@@ -104,6 +110,9 @@ export default function CountryList() {
                 size='small'
                 sx={{ minWidth: 280 }}
               />
+              <Button variant='outlined' color='secondary' size='small' onClick={resetFilters} sx={{ minHeight: 40, textTransform: 'none' }}>
+                Réinitialiser
+              </Button>
             </Box>
             {loading ? (
               <Box display='flex' justifyContent='center' alignItems='center' minHeight={200}>
@@ -127,10 +136,42 @@ export default function CountryList() {
                       </tr>
                     </thead>
                     <tbody>
-                      {countries.map(c => (
+                      {countries.map(c => {
+                        const flagSrc = flagCdnUrl(c.code)
+                        return (
                         <tr key={c.id}>
                           <td>{c.id}</td>
-                          <td>{c.name}</td>
+                          <td>
+                            <Box display='flex' alignItems='center' gap={1.5}>
+                              {flagSrc ? (
+                                <Box
+                                  component='img'
+                                  src={flagSrc}
+                                  alt=''
+                                  loading='lazy'
+                                  decoding='async'
+                                  referrerPolicy='no-referrer'
+                                  title={c.code ?? undefined}
+                                  sx={{
+                                    width: 32,
+                                    height: 24,
+                                    objectFit: 'cover',
+                                    borderRadius: 0.5,
+                                    flexShrink: 0,
+                                    border: '1px solid',
+                                    borderColor: 'divider',
+                                    display: 'block'
+                                  }}
+                                  onError={e => {
+                                    ;(e.target as HTMLImageElement).style.display = 'none'
+                                  }}
+                                />
+                              ) : null}
+                              <Typography component='span' variant='body2'>
+                                {c.name}
+                              </Typography>
+                            </Box>
+                          </td>
                           <td>{c.code}</td>
                           <td align='right'>
                             <OptionMenu
@@ -157,7 +198,8 @@ export default function CountryList() {
                             />
                           </td>
                         </tr>
-                      ))}
+                        )
+                      })}
                     </tbody>
                   </table>
                 </div>

@@ -13,6 +13,10 @@ const horizontalMenuData = (dictionary: Awaited<ReturnType<typeof getDictionary>
     icon: 'tabler-music',
     children: [
       {
+        label: 'Dashboard',
+        href: '/apps/ngoni/dashboard'
+      },
+      {
         label: dictionary['navigation']?.music ?? 'Music',
         href: '/apps/ngoni/music'
       },

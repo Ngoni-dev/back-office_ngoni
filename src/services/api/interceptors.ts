@@ -34,14 +34,23 @@ async function refreshAuthToken(): Promise<string> {
   return newToken
 }
 
+let lastNetworkToastAt = 0
+const NETWORK_TOAST_COOLDOWN_MS = 10000
+
 function handleApiError(error: AxiosError): void {
+  const config = error.config as InternalAxiosRequestConfig & { skip404Toast?: boolean; suppressErrorToast?: boolean }
+  if (config?.suppressErrorToast) return
+
   if (!error.response) {
-    toast.error('Erreur réseau. Vérifiez votre connexion.')
+    const now = Date.now()
+    if (now - lastNetworkToastAt > NETWORK_TOAST_COOLDOWN_MS) {
+      lastNetworkToastAt = now
+      toast.error('Erreur réseau. Vérifiez votre connexion.')
+    }
     return
   }
 
   const status = error.response.status
-  const config = error.config as InternalAxiosRequestConfig & { skip404Toast?: boolean }
   const data = error.response.data as { message?: string; errors?: Record<string, string[]> }
 
   switch (status) {

@@ -12,7 +12,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
-import Chip from '@mui/material/Chip'
+import StatusBadge from '@/components/StatusBadge'
 import CircularProgress from '@mui/material/CircularProgress'
 import Grid from '@mui/material/Grid'
 import TablePagination from '@mui/material/TablePagination'
@@ -93,6 +93,11 @@ export default function LicenseList() {
     setPage(0)
   }
 
+  const resetFilters = () => {
+    setSearchQuery('')
+    setPage(0)
+  }
+
   const handleDelete = async (id: number) => {
     try {
       await licenseService.delete(id)
@@ -137,6 +142,15 @@ export default function LicenseList() {
                   onChange={e => setSearchQuery(e.target.value)}
                   sx={{ minWidth: 280 }}
                 />
+                <Button
+                  variant='outlined'
+                  color='secondary'
+                  size='small'
+                  onClick={resetFilters}
+                  sx={{ minHeight: 40, textTransform: 'none' }}
+                >
+                  Réinitialiser
+                </Button>
               </div>
             </div>
             {loading ? (
@@ -219,11 +233,11 @@ export default function LicenseList() {
                           </td>
                           <td>
                             {l.is_expired ? (
-                              <Chip label='Expirée' size='small' color='error' variant='tonal' />
+                              <StatusBadge label='Expirée' tone='error' />
                             ) : l.is_active ? (
-                              <Chip label='Active' size='small' color='success' variant='tonal' />
+                              <StatusBadge label='Active' tone='success' />
                             ) : (
-                              <Chip label='À venir' size='small' variant='outlined' />
+                              <StatusBadge label='À venir' tone='neutral' />
                             )}
                           </td>
                           <td>

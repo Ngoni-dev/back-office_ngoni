@@ -6,6 +6,7 @@ import { apiClient } from './api/client'
 import type {
   Music,
   MusicListResponse,
+  MusicOverviewResponse,
   MusicSearchParams,
   MusicCreateRequest,
   MusicUpdateRequest,
@@ -15,6 +16,10 @@ import type {
 type RequestConfig = import('axios').AxiosRequestConfig & { skip404Toast?: boolean }
 
 export class MusicService {
+  async overview(): Promise<MusicOverviewResponse> {
+    return apiClient.get<MusicOverviewResponse>('/admin/musics/overview')
+  }
+
   async list(page = 1, perPage = 15, config?: RequestConfig): Promise<MusicListResponse> {
     const response = await apiClient.get<MusicListResponse>(
       `/admin/musics?page=${page}&per_page=${perPage}`,

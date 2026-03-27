@@ -13,7 +13,7 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
-import Chip from '@mui/material/Chip'
+import StatusBadge from '@/components/StatusBadge'
 import CircularProgress from '@mui/material/CircularProgress'
 import Grid from '@mui/material/Grid'
 import MenuItem from '@mui/material/MenuItem'
@@ -105,6 +105,12 @@ export default function GiftProductList() {
     }
   }
 
+  const resetFilters = () => {
+    setSearchName('')
+    setFilterActive(undefined)
+    setPage(0)
+  }
+
   const handleToggleActive = async (id: number) => {
     try {
       await giftProductService.toggleActive(id)
@@ -162,6 +168,9 @@ export default function GiftProductList() {
                   <MenuItem value="false">Inactifs</MenuItem>
                 </CustomTextField>
               </div>
+              <Button variant='outlined' color='secondary' size='small' onClick={resetFilters} sx={{ minHeight: 40, textTransform: 'none' }}>
+                Réinitialiser
+              </Button>
             </div>
             {loading ? (
               <Box display='flex' justifyContent='center' alignItems='center' minHeight={280}>
@@ -236,12 +245,7 @@ export default function GiftProductList() {
                           </td>
                           <td>{p.category ?? '—'}</td>
                           <td>
-                            <Chip
-                              label={p.is_active ? 'Oui' : 'Non'}
-                              variant='tonal'
-                              color={p.is_active ? 'success' : 'default'}
-                              size='small'
-                            />
+                            <StatusBadge label={p.is_active ? 'Oui' : 'Non'} tone={p.is_active ? 'success' : 'neutral'} />
                           </td>
                           <td align='right'>
                             <OptionMenu

@@ -71,6 +71,34 @@ export interface MusicListResponse {
   meta?: { current_page: number; per_page: number; total: number; last_page: number }
 }
 
+export interface MusicOverviewTotals {
+  musics: number
+  artists: number
+  genres: number
+  licenses: number
+  pending: number
+  approved: number
+  rejected: number
+  blocked: number
+  original: number
+}
+
+export interface MusicOverviewTrends7d {
+  labels: string[]
+  musics_created: number[]
+  artists_created: number[]
+  genres_created: number[]
+  licenses_created: number[]
+}
+
+export interface MusicOverviewResponse {
+  status: string
+  data: {
+    totals: MusicOverviewTotals
+    trends_7d: MusicOverviewTrends7d
+  }
+}
+
 export interface MusicCreateRequest {
   title: string
   audio_file: File

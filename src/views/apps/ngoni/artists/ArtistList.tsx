@@ -89,6 +89,11 @@ export default function ArtistList() {
     setPage(0)
   }
 
+  const resetFilters = () => {
+    setSearchName('')
+    setPage(0)
+  }
+
   const handleDelete = async (id: number) => {
     try {
       await artistService.delete(id)
@@ -147,6 +152,15 @@ export default function ArtistList() {
                   onChange={e => setSearchName(e.target.value)}
                   sx={{ minWidth: 220 }}
                 />
+                <Button
+                  variant='outlined'
+                  color='secondary'
+                  size='small'
+                  onClick={resetFilters}
+                  sx={{ minHeight: 40, textTransform: 'none' }}
+                >
+                  Réinitialiser
+                </Button>
               </div>
             </div>
             {loading ? (

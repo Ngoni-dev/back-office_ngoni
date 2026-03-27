@@ -3,6 +3,7 @@ import { useParams } from 'next/navigation'
 
 // MUI Imports
 import { useTheme } from '@mui/material/styles'
+import { useSelector } from 'react-redux'
 
 // Third-party Imports
 import PerfectScrollbar from 'react-perfect-scrollbar'
@@ -10,6 +11,7 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 // Type Imports
 import type { getDictionary } from '@/utils/getDictionary'
 import type { VerticalMenuContextProps } from '@menu/components/vertical-menu/Menu'
+import type { RootState } from '@/redux-store'
 
 // Component Imports
 import { Menu } from '@menu/vertical-menu'
@@ -47,9 +49,14 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
   const theme = useTheme()
   const verticalNavOptions = useVerticalNav()
   const params = useParams()
+  const user = useSelector((state: RootState) => state.auth.user)
 
   // Vars
   const { isBreakpointReached, transitionDuration } = verticalNavOptions
+
+  // Sous-menus: animation courte pour éviter le "scroll lock" ressenti à la fermeture
+  const subMenuTransitionDuration = 120
+  
 
   const ScrollWrapper = isBreakpointReached ? 'div' : PerfectScrollbar
 
@@ -67,12 +74,13 @@ const VerticalMenu = ({ dictionary, scrollMenu }: Props) => {
     >
       <Menu
         popoutMenuOffset={{ mainAxis: 23 }}
+        transitionDuration={subMenuTransitionDuration}
         menuItemStyles={menuItemStyles(verticalNavOptions, theme)}
         renderExpandIcon={({ open }) => <RenderExpandIcon open={open} transitionDuration={transitionDuration} />}
         renderExpandedMenuItemIcon={{ icon: <i className='tabler-circle text-xs' /> }}
         menuSectionStyles={menuSectionStyles(verticalNavOptions, theme)}
       >
-        <GenerateVerticalMenu menuData={verticalMenuData(dictionary)} />
+        <GenerateVerticalMenu menuData={verticalMenuData(dictionary, user?.permissions ?? [], user?.role)} />
       </Menu>
     </ScrollWrapper>
   )
