@@ -6,11 +6,16 @@ import { apiClient } from './api/client'
 import type {
   GiftProduct,
   GiftProductListResponse,
+  GiftProductOverviewResponse,
   GiftProductCreateRequest,
   GiftProductUpdateRequest
 } from '@/types/gift.types'
 
 export class GiftProductService {
+  async overview(): Promise<GiftProductOverviewResponse> {
+    return apiClient.get<GiftProductOverviewResponse>('/admin/gift-products/overview')
+  }
+
   async list(page = 1, perPage = 15, filters?: { category?: string; is_active?: boolean }): Promise<GiftProductListResponse> {
     const params = new URLSearchParams({ page: String(page), per_page: String(perPage) })
     if (filters?.category) params.append('category', filters.category)

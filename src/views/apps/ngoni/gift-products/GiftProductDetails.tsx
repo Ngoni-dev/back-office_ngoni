@@ -15,7 +15,7 @@ import Button from '@mui/material/Button'
 import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardHeader from '@mui/material/CardHeader'
-import Chip from '@mui/material/Chip'
+import StatusBadge from '@/components/StatusBadge'
 import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider'
 import Grid from '@mui/material/Grid'
@@ -234,12 +234,7 @@ export default function GiftProductDetails({ id }: GiftProductDetailsProps) {
               {product.name}
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 0.5 }}>
-              <Chip
-                label={product.is_active ? 'Actif' : 'Inactif'}
-                color={product.is_active ? 'success' : 'default'}
-                size='small'
-                variant='tonal'
-              />
+              <StatusBadge label={product.is_active ? 'Actif' : 'Inactif'} tone={product.is_active ? 'success' : 'neutral'} />
             </Box>
           </Box>
         </Box>
@@ -489,12 +484,7 @@ export default function GiftProductDetails({ id }: GiftProductDetailsProps) {
                   <Typography variant='caption' color='text.secondary' display='block' gutterBottom>
                     Statut actuel
                   </Typography>
-                  <Chip
-                    label={product.is_active ? 'Actif' : 'Inactif'}
-                    color={product.is_active ? 'success' : 'default'}
-                    variant='tonal'
-                    size='medium'
-                  />
+                  <StatusBadge label={product.is_active ? 'Actif' : 'Inactif'} tone={product.is_active ? 'success' : 'neutral'} />
                 </Box>
                 <Button
                   variant='tonal'

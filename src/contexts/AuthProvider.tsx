@@ -52,7 +52,9 @@ export const AuthProvider = ({ children }: Props) => {
               id: 0,
               name: '',
               email: '',
-              role: 'PERSONAL'
+              role: 'admin',
+              acl_roles: [],
+              permissions: []
             })
           )
         }

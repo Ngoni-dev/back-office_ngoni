@@ -15,7 +15,7 @@ import Card from '@mui/material/Card'
 import CardContent from '@mui/material/CardContent'
 import CardHeader from '@mui/material/CardHeader'
 import Checkbox from '@mui/material/Checkbox'
-import Chip from '@mui/material/Chip'
+import StatusBadge from '@/components/StatusBadge'
 import CircularProgress from '@mui/material/CircularProgress'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
@@ -242,11 +242,11 @@ export default function LicenseDetails({ id }: LicenseDetailsProps) {
             Licence #{license.id}
           </Typography>
           {license.is_expired ? (
-            <Chip label='Expirée' size='small' color='error' variant='tonal' />
+            <StatusBadge label='Expirée' tone='error' />
           ) : license.is_active ? (
-            <Chip label='Active' size='small' color='success' variant='tonal' />
+            <StatusBadge label='Active' tone='success' />
           ) : (
-            <Chip label='À venir' size='small' variant='outlined' />
+            <StatusBadge label='À venir' tone='neutral' />
           )}
         </Box>
         <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>

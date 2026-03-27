@@ -12,7 +12,7 @@ import Box from '@mui/material/Box'
 import Card from '@mui/material/Card'
 import CardHeader from '@mui/material/CardHeader'
 import Button from '@mui/material/Button'
-import Chip from '@mui/material/Chip'
+import StatusBadge, { toneFromLegacyChipColor } from '@/components/StatusBadge'
 import Grid from '@mui/material/Grid'
 import Typography from '@mui/material/Typography'
 import TablePagination from '@mui/material/TablePagination'
@@ -122,6 +122,12 @@ export default function MusicList() {
     }
   }
 
+  const resetFilters = () => {
+    setSearchTitle('')
+    setSearchStatus('')
+    setPage(0)
+  }
+
   const handleStatusChange = async (id: number, status: MusicStatus) => {
     try {
       await musicService.updateStatus(id, status)
@@ -175,6 +181,9 @@ export default function MusicList() {
                   <MenuItem value='blocked'>Bloqué</MenuItem>
                 </CustomTextField>
               </div>
+              <Button variant='outlined' color='secondary' size='small' onClick={resetFilters} sx={{ minHeight: 40, textTransform: 'none' }}>
+                Réinitialiser
+              </Button>
             </div>
             {loading ? (
               <Box display='flex' justifyContent='center' alignItems='center' minHeight={280}>
@@ -235,11 +244,9 @@ export default function MusicList() {
                           </td>
                           <td>{formatDuration(m.duration, m.duration_formatted)}</td>
                           <td>
-                            <Chip
+                            <StatusBadge
                               label={statusLabels[m.status] ?? m.status}
-                              variant='tonal'
-                              color={statusColors[m.status] ?? 'default'}
-                              size='small'
+                              tone={toneFromLegacyChipColor(statusColors[m.status] ?? 'default')}
                             />
                           </td>
                           <td>

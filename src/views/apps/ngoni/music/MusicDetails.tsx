@@ -16,6 +16,7 @@ import CardContent from '@mui/material/CardContent'
 import CardHeader from '@mui/material/CardHeader'
 import Checkbox from '@mui/material/Checkbox'
 import Chip from '@mui/material/Chip'
+import StatusBadge, { toneFromLegacyChipColor } from '@/components/StatusBadge'
 import CircularProgress from '@mui/material/CircularProgress'
 import Divider from '@mui/material/Divider'
 import FormControlLabel from '@mui/material/FormControlLabel'
@@ -271,11 +272,9 @@ export default function MusicDetails({ id }: MusicDetailsProps) {
           <Typography variant='h4' fontWeight={600}>
             {music.title}
           </Typography>
-          <Chip
+          <StatusBadge
             label={statusLabels[music.status]}
-            color={statusColors[music.status]}
-            variant='tonal'
-            size='small'
+            tone={toneFromLegacyChipColor(statusColors[music.status] ?? 'default')}
           />
         </Box>
         <Box sx={{ display: 'flex', gap: 1.5, flexWrap: 'wrap' }}>
@@ -547,7 +546,10 @@ export default function MusicDetails({ id }: MusicDetailsProps) {
                 <Typography variant='caption' color='text.secondary' display='block' gutterBottom>
                   Statut actuel
                 </Typography>
-                <Chip label={statusLabels[music.status]} color={statusColors[music.status]} variant='tonal' size='medium' />
+                <StatusBadge
+                  label={statusLabels[music.status]}
+                  tone={toneFromLegacyChipColor(statusColors[music.status] ?? 'default')}
+                />
               </Box>
               <Typography variant='caption' color='text.secondary' display='block' gutterBottom sx={{ mb: 1.5 }}>
                 Changer le statut

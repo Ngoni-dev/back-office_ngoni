@@ -1,7 +1,6 @@
 'use client'
 
-// MUI Imports
-import Chip from '@mui/material/Chip'
+import StatusBadge from '@/components/StatusBadge'
 
 // Type Imports
 import type { MusicStatus } from '@/types/music.types'
@@ -10,24 +9,17 @@ interface MusicStatusBadgeProps {
   status: MusicStatus
 }
 
-const statusConfig: Record<MusicStatus, { label: string; color: 'default' | 'primary' | 'success' | 'error' | 'warning' }> = {
-  pending: { label: 'En attente', color: 'warning' },
-  approved: { label: 'Approuvé', color: 'success' },
-  rejected: { label: 'Rejeté', color: 'error' },
-  blocked: { label: 'Bloqué', color: 'default' }
+const statusConfig: Record<MusicStatus, { label: string; tone: 'neutral' | 'success' | 'error' | 'warning' }> = {
+  pending: { label: 'En attente', tone: 'warning' },
+  approved: { label: 'Approuvé', tone: 'success' },
+  rejected: { label: 'Rejeté', tone: 'error' },
+  blocked: { label: 'Bloqué', tone: 'neutral' }
 }
 
 const MusicStatusBadge = ({ status }: MusicStatusBadgeProps) => {
   const config = statusConfig[status]
 
-  return (
-    <Chip
-      label={config.label}
-      color={config.color}
-      size='small'
-      variant='tonal'
-    />
-  )
+  return <StatusBadge label={config.label} tone={config.tone} />
 }
 
 export default MusicStatusBadge

@@ -26,6 +26,14 @@ export class AuthService {
   async getProfile(): Promise<ProfileResponse> {
     return apiClient.get<ProfileResponse>('/admin/auth/profile')
   }
+
+  async forgotPassword(email: string): Promise<{ status: string; message: string }> {
+    return apiClient.post<{ status: string; message: string }>('/admin/auth/forgot-password', { email })
+  }
+
+  async resetPassword(data: { email: string; token: string; password: string; password_confirmation: string }): Promise<{ status: string; message: string }> {
+    return apiClient.post<{ status: string; message: string }>('/admin/auth/reset-password', data)
+  }
 }
 
 export const authService = new AuthService()
