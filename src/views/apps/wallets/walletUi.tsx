@@ -131,15 +131,8 @@ export const AUDIT_STATUS_FILTER_OPTIONS: { value: AuditStatus; label: string }[
 ).map(([value, { label }]) => ({ value, label }))
 
 export function auditStatusChip(status: AuditStatus) {
-  const m = AUDIT_STATUS_META[status] ?? { label: status, color: 'default' as const }
-  return (
-    <Chip
-      size='small'
-      label={m.label}
-      color={m.color === 'default' ? 'default' : m.color}
-      variant={m.color === 'default' ? 'outlined' : 'filled'}
-    />
-  )
+  const m = AUDIT_STATUS_META[status] ?? { label: status, tone: 'neutral' as const }
+  return <StatusBadge label={m.label} tone={m.tone} />
 }
 
 const AUDIT_ACTION_LABELS: Record<AuditAction, string> = {

@@ -288,13 +288,18 @@ export default function AdminList() {
                       <FormControl size='small' fullWidth>
                         <InputLabel>Pays</InputLabel>
                         <Select
-                          value={countryIdFilter}
+                          value={countryIdFilter === '' ? '' : String(countryIdFilter)}
                           label='Pays'
-                          onChange={e => setCountryIdFilter(e.target.value === '' ? '' : Number(e.target.value))}
+                          onChange={e => {
+                            const v = e.target.value
+                            setCountryIdFilter(v === '' ? '' : Number(v))
+                          }}
                         >
                           <MenuItem value=''>Tous</MenuItem>
                           {countries.map(c => (
-                            <MenuItem key={c.id} value={c.id}>{c.name} ({c.code})</MenuItem>
+                            <MenuItem key={c.id} value={String(c.id)}>
+                              {c.name} ({c.code})
+                            </MenuItem>
                           ))}
                         </Select>
                       </FormControl>
